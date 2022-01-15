@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'calculation.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context){
     return MaterialApp(
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme:ThemeData(
         primarySwatch:Colors.blue,
       ),
-      home:MainPage(),
+      home:const MainPage(),
     );
   }
 }
@@ -37,20 +40,32 @@ class MainPage extends StatelessWidget{
 
 //表示部分
 class TextField extends StatefulWidget {
+  const TextField({Key? key}) : super(key: key);
+
   TextFiledState createState() => TextFiledState();
 }
 
 
 class TextFiledState extends State<TextField> {
-  String test='1+1';
+  String expression="";
 
   //表示部分の非同期処理
   void UpdateText(String letter){
     setState(() {
-      if(letter=="="||letter=="C")
-        test="";
-      else
-        test+=letter;
+      if(letter=="C") {
+        expression = "";
+      }
+      else if(letter=="="){
+        expression="";
+        var ans = Calculator.Execute();
+        controller.sink.add(ans);
+      }
+      else if(letter=="e") {
+        expression ="Error";
+      }
+      else {
+        expression += letter;
+      }
     });
   }
 
@@ -61,7 +76,7 @@ class TextFiledState extends State<TextField> {
       child:Align(
         alignment: Alignment.centerRight,
         child:Text(
-          test,
+          expression,
           style: TextStyle(
             fontSize: 64.0,
           ),
@@ -70,16 +85,17 @@ class TextFiledState extends State<TextField> {
     );
   }
 
-  static final controller = StreamController<String>();
+  static final controller = StreamController<String>.broadcast();
   @override
   void initState() {
     controller.stream.listen((event) => UpdateText(event));
+    controller.stream.listen((event) => Calculator.GetKey(event));
   }
 }
 
 //キーボタン
 class Keyboard extends StatelessWidget {
-  var list=[
+  final list=[
     '7', '8', '9', '÷',
     '4', '5', '6', '×',
     '1', '2', '3', '-',
@@ -97,7 +113,7 @@ class Keyboard extends StatelessWidget {
                 crossAxisCount: 4,
                 mainAxisSpacing: 3.0,
                 crossAxisSpacing: 3.0,
-                children: list.map((_key) {
+                children: list.map((key) {
                   return GridTile(
                     child: Button(key),
                   );
@@ -111,48 +127,25 @@ class Keyboard extends StatelessWidget {
 
 //キーボタンの文字
 class Button extends StatelessWidget {
-  final _key;
-  Button(this._key);
+  final num;
+  Button(this.num);
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       child: Text(
-          "$_key",
+          "$num",
         style: TextStyle(
           color:Colors.amber,
-          fontSize:20,
+          fontSize:40,
         ),
       ),
       style: ElevatedButton.styleFrom(
         onPrimary: Colors.white,
       ),
       onPressed: () {
-        TextFiledState.controller.sink.add(_key);
+        TextFiledState.controller.sink.add(num);
       },
     );
   }
 }
-/*class Button extends StatelessWidget {
-  final _key;
-  Button(this._key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: FlatButton(
-          child: Center(
-            child: Text(
-                _key,
-                style: TextStyle(
-                  fontSize: 46.0,
-                  color: Colors.black54,
-                )
-            ),
-          ),
-          onPressed: (){
-            TextFiledState.controller.sink.add(_key);
-          },
-        )
-    );
-  }
-}*/
 
