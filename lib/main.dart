@@ -30,8 +30,9 @@ class MainPage extends StatelessWidget{
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-              TextField(),
-              Keyboard(),
+            TextField(),
+            KeyButton(),
+            DiscountButton(),
           ],
         )
     );
@@ -94,7 +95,7 @@ class TextFiledState extends State<TextField> {
 }
 
 //キーボタン
-class Keyboard extends StatelessWidget {
+class KeyButton extends StatelessWidget {
   final list=[
     '7', '8', '9', '÷',
     '4', '5', '6', '×',
@@ -149,3 +150,31 @@ class Button extends StatelessWidget {
   }
 }
 
+//割引ボタンの表示
+class DiscountButton extends StatelessWidget{
+  final list=[
+    '10', '3', '9', '÷',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        flex: 1,
+        child: Center(
+            child: Container(
+              color: const Color(0xff87cefa),
+              child: GridView.count(
+                crossAxisCount: 4,
+                //mainAxisSpacing: 3.0,
+                //crossAxisSpacing: 3.0,
+                children: list.map((key) {
+                  return GridTile(
+                    child: Button(key),
+                  );
+                }).toList(),
+              ),
+            )
+        )
+    );
+  }
+}
