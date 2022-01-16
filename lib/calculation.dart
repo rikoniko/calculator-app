@@ -33,12 +33,11 @@ class Calculator{
   static String Execute() {
     double tmp;
     double result=0.0;
-    number.add(double.parse(buffer));
-    if ((number.length == 0)&&(op[0]=='-')) {
-        number[0]=0;
-      //return '0';
-    }
 
+    number.add(double.parse(buffer));
+    if (number.length == 0) {
+      return '0';
+    }
     for (var i = 0; i < op.length; i++) {
       switch (op[i]) {
         case '×':
