@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage>{
               // ここにボタンを押した時に呼ばれるコードを書く
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CaluculationPage()),
+                MaterialPageRoute(builder: (context) => CalculationPage()),
               );
             },
           ),
