@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'calculation.dart';
 import 'calculation_page.dart';
 import 'discount_calculation.dart';
+import 'total_amount_calculation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,6 +51,16 @@ class _MyHomePageState extends State<MyHomePage>{
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CalculationPage()),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: Text('合計金額の計算'),
+              onPressed: () {
+                // ここにボタンを押した時に呼ばれるコードを書く
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TotalAmountCalculation()),
                 );
               },
             ),
