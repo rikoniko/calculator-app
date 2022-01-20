@@ -25,39 +25,6 @@ class CalculationPage extends StatelessWidget {
       );
   }
 }
-/*void main() {
-  runApp(const CalculationPage());
-}
-
-class CalculationPage extends StatelessWidget {
-  const CalculationPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context){
-    return MaterialApp(
-      title:'楽する電卓',
-      theme:ThemeData(
-        primarySwatch:Colors.blue,
-      ),
-      home:const MainPage(),
-    );
-  }
-}
-class MainPage extends StatelessWidget{
-  const MainPage({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context){
-    return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            TextField(),
-            Keybutton(),
-          ],
-        )
-    );
-  }
-}*/
 
 //電卓の表示部分
 class TextField extends StatefulWidget {
@@ -90,6 +57,7 @@ class _TextFiledState extends State<TextField> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -106,7 +74,7 @@ class _TextFiledState extends State<TextField> {
     );
   }
 
-  static final controller = StreamController<String>.broadcast();
+  static final controller = StreamController.broadcast();
   @override
   void initState() {
     controller.stream.listen((event) => UpdateText(event));
@@ -150,7 +118,20 @@ class Button extends StatelessWidget {
   Button(this.num);
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return Container(
+        child: ElevatedButton(
+          child: Center(
+            child: Text(
+              num,
+              style: TextStyle(fontSize: 46.0),
+            ),
+          ),
+          onPressed: (){
+            _TextFiledState.controller.sink.add(num);
+          },
+        )
+    );
+    /*return ElevatedButton(
       child: Text(
         "$num",
         style: TextStyle(
@@ -164,6 +145,6 @@ class Button extends StatelessWidget {
       onPressed: () {
         _TextFiledState.controller.sink.add(num);
       },
-    );
+    );*/
   }
 }
