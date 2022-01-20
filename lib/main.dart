@@ -1,9 +1,7 @@
-import 'dart:async';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'calculation.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'calculation_page.dart';
-import 'discount_calculation.dart';
 import 'total_amount_calculation_page.dart';
 
 void main() {
@@ -16,6 +14,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     return MaterialApp(
+      supportedLocales: const [Locale('ja','JP')],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        DefaultCupertinoLocalizations.delegate
+      ],
       title: '楽する買い物',
       theme:ThemeData(
         primarySwatch:Colors.blue,
