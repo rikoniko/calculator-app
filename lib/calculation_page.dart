@@ -131,20 +131,6 @@ class Button extends StatelessWidget {
           },
         )
     );
-    /*return ElevatedButton(
-      child: Text(
-        "$num",
-        style: TextStyle(
-          color:Colors.amber,
-          fontSize:40,
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-        onPrimary: Colors.white,
-      ),
-      onPressed: () {
-        _TextFiledState.controller.sink.add(num);
-      },
-    );*/
+
   }
 }
