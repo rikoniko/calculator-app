@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'calculation.dart';
+
 import 'calculation_page.dart';
 import 'discount_calculation.dart';
 
@@ -46,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage>{
               // ここにボタンを押した時に呼ばれるコードを書く
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CalculationPage()),
+                MaterialPageRoute(builder: (context) => CaluculationPage()),
               );
             },
           ),
@@ -54,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage>{
     );
   }
 }
+
 
 //表示部分
 /*class TextField extends StatefulWidget {
