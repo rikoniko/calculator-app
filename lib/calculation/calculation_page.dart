@@ -37,7 +37,6 @@ class TextField extends StatefulWidget {
 class _TextFiledState extends State<TextField> {
   String expression="";
 
-  //表示部分の非同期処理
   void UpdateText(String letter){
     setState(() {
       if(letter=="C") {
