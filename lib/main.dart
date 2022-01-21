@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'calculation/calculation_page.dart';
 import 'shopping_list/shopping_list_page.dart';
+import 'todo/main.dart';
 import 'total_amount_calculation/total_amount_calculation_page.dart';
 
 void main() {
@@ -53,34 +54,40 @@ class _MyHomePageState extends State<MyHomePage>{
             ElevatedButton(
               child: const Text('電卓'),
               onPressed: () {
-                // ここにボタンを押した時に呼ばれるコードを書く
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const CalculationPage()),
                 );
               },
             ),
-            ElevatedButton(
+            /*ElevatedButton(
               child: const Text('合計金額の計算'),
               onPressed: () {
-                // ここにボタンを押した時に呼ばれるコードを書く
+                //Navigator.of(context).push(TotalAmountCalculation(price: 'ああ', number: 1,text:'ああ')),
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const TotalAmountCalculation()),
                 );
               },
-            ),
+            ),*/
             ElevatedButton(
               child: const Text('買い物リスト'),
               onPressed: () {
-                // ここにボタンを押した時に呼ばれるコードを書く
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const ShoppingListPage()),
                 );
               },
             ),
-
+            ElevatedButton(
+              child: const Text('todo'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TodoListApp()),
+                );
+              },
+            ),
           ],
         )
 

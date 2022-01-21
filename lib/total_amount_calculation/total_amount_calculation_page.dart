@@ -4,12 +4,23 @@ import 'package:calculator_app/total_amount_calculation/regular_price_list_add_p
 import 'package:calculator_app/utils.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const TotalAmountCalculation());
-}
+/*void main() {
+  runApp(TotalAmountCalculation());
+}*/
 
 class TotalAmountCalculation extends StatefulWidget {
-  const TotalAmountCalculation({Key? key}) : super(key: key);
+  //const TotalAmountCalculation({Key? key}) : super(key: key);
+
+  final String price;
+  final String number;
+  final String text;
+
+  const TotalAmountCalculation({
+    Key? key,
+    required this.price,
+    required this.number,
+    required this.text,
+  }) : super(key: key);
 
   @override
   _TotalAmountCalculationState createState() => _TotalAmountCalculationState();
@@ -17,51 +28,71 @@ class TotalAmountCalculation extends StatefulWidget {
 
 class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
   late List<Product> products;
-  List<String> regularPriceList=[];
+  static List<String> regularPriceList = [];
 
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    this.products=List.of(allProducts);
+    this.products = List.of(allProducts);
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:const Text('合計金額計算'),
-      ),
-      body: buildDateTable(),
+        appBar: AppBar(
+          title: const Text('合計金額計算'),
+        ),
+        body: buildDateTable(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            final newListText = await Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) {
+                return const RegularPriceListAddPage();
+              }),
+            );
+            print('$context');
+          if (newListText != null) {
+            setState(() {
+            _TotalAmountCalculationState.regularPriceList.add(newListText);
+          });
+          print('$_TotalAmountCalculationState.regularPriceList');
+
+          }
+          },
+          child: Icon(Icons.add),
+        ),
+
     );
   }
 
   Widget buildDateTable() {
-    final colums=["値段","個数","メモ"];
+    final colums = ["値段", "個数", "メモ"];
 
     return SizedBox(
       width: double.infinity,
-      child:DataTable(
+      child: DataTable(
         columns: getColumns(colums),
         rows: getRows(products),
       ),
     );
   }
 
-  List<DataColumn> getColumns(List<String> columns){
-    return columns.map((String coloum){
+  List<DataColumn> getColumns(List<String> columns) {
+    return columns.map((String coloum) {
       return DataColumn(
         label: Text(coloum),
       );
     }).toList();
   }
 
+  //productsに全てのデータが入っているから、そこから取り出せるようにする
   List<DataRow> getRows(List<Product> products) {
-    return products.map((Product product){
-      final cells=[product.price,product.number,product.text];
+    return products.map((Product product) {
+      final cells = [product.price, product.number, product.text];
 
       return DataRow(
-        cells: Utils.modelBuilder(cells,(index,cell){
+        cells: Utils.modelBuilder(cells, (index, cell) {
           return DataCell(
             Text('$cell'),
           );
@@ -69,7 +100,38 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
       );
     }).toList();
   }
+}
 
+/*class NextPage extends StatefulWidget {
+
+  @override
+  _NextPageState createState() => _NextPageState();
+}
+
+class _NextPageState extends State<NextPage> {
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () async {
+        final newListText = await Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) {
+            return const RegularPriceListAddPage();
+          }),
+        );
+        print('$context');
+        if (newListText != null) {
+          setState(() {
+            _TotalAmountCalculationState.regularPriceList.add(newListText);
+          });
+          print('$_TotalAmountCalculationState.regularPriceList');
+
+        }
+      },
+      child: Icon(Icons.add),
+    );
+  }
+}
+*/
   /*@override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,7 +188,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
       )
     );
   }*/
-}
+
 
 
 /*

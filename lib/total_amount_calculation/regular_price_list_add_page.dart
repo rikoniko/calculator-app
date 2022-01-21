@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'products.dart';
+
 class RegularPriceListAddPage extends StatefulWidget {
   const RegularPriceListAddPage({Key? key}) : super(key: key);
 
@@ -11,7 +13,10 @@ class RegularPriceListAddPage extends StatefulWidget {
 }
 
 class _RegularPriceListAddPageState extends State<RegularPriceListAddPage> {
-  String _text='';
+  String price='';
+  String number='';
+  String text='';
+  //late List<Product> products;
 
   @override
   Widget build(BuildContext context) {
@@ -32,46 +37,82 @@ class _RegularPriceListAddPageState extends State<RegularPriceListAddPage> {
           title: const Text('商品追加'),
         ),
         body: Container(
-          padding: const EdgeInsets.all(64),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextField(
-                onChanged: (String value){
-                  setState(() {
-                    _text=value;
-                  });
-                },
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    /*Navigator.pop(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context)=>TotalAmountCalculation(
-                            _text:_text,
-                          ),
-                      ),
-                    );*/
-                    Navigator.of(context).pop(_text);
-                  },
-                  child: const Text('リスト追加', style: TextStyle(color: Colors.white)),
+          padding: const EdgeInsets.all(50),
+          child:SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: '値段',
+                    ),
+                    onChanged: (String tmp_price){
+                      setState(() {
+                        price=tmp_price;
+                      });
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('キャンセル'),
+                Padding(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: '個数',
+                    ),
+                    onChanged: (String tmp_number){
+                      setState(() {
+                        number=tmp_number;
+                      });
+                    },
+                  ),
                 ),
-              ),
-            ],
+                Padding(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'メモ',
+                    ),
+                    onChanged: (String tmp_text){
+                      setState(() {
+                        text=tmp_text;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context)=>TotalAmountCalculation(
+                              price: price,
+                              number: number,
+                              text:text,
+                            ),
+                        ),
+                      );
+                      //Navigator.of(context).pop(text);
+                    },
+                    child: const Text('リスト追加', style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('キャンセル'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
