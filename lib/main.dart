@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'calculation_page.dart';
+import 'shopping_list_page.dart';
 import 'total_amount_calculation_page.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         primarySwatch:Colors.blue,
         //visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
@@ -66,6 +67,16 @@ class _MyHomePageState extends State<MyHomePage>{
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const TotalAmountCalculation()),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: const Text('買い物リスト'),
+              onPressed: () {
+                // ここにボタンを押した時に呼ばれるコードを書く
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ShoppingListPage()),
                 );
               },
             ),
