@@ -1,3 +1,4 @@
+import 'package:calculator_app/total_amount_calculation/total_amount_calculation_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -47,6 +48,14 @@ class _RegularPriceListAddPageState extends State<RegularPriceListAddPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
+                    /*Navigator.pop(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context)=>TotalAmountCalculation(
+                            _text:_text,
+                          ),
+                      ),
+                    );*/
                     Navigator.of(context).pop(_text);
                   },
                   child: const Text('リスト追加', style: TextStyle(color: Colors.white)),

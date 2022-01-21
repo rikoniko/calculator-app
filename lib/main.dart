@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'calculation_page.dart';
-import 'shopping_list_page.dart';
-import 'total_amount_calculation_page.dart';
+import 'calculation/calculation_page.dart';
+import 'shopping_list/shopping_list_page.dart';
+import 'total_amount_calculation/total_amount_calculation_page.dart';
 
 void main() {
   runApp(const MyApp());
