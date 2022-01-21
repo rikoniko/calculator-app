@@ -88,6 +88,15 @@ class _MyHomePageState extends State<MyHomePage>{
                 );
               },
             ),
+            ElevatedButton(
+              child: const Text('合計金額計算'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TotalAmountCalculation()),
+                );
+              },
+            ),
           ],
         )
 
