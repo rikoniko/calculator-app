@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-class RegularPriceListAddPage extends StatefulWidget {
-  const RegularPriceListAddPage({Key? key}) : super(key: key);
+class ShoppingListAddPage extends StatefulWidget {
+  const ShoppingListAddPage({Key? key}) : super(key: key);
 
   @override
-  _RegularPriceListAddPageState createState() => _RegularPriceListAddPageState();
+  _ShoppingListAddPageState createState() => _ShoppingListAddPageState();
 }
 
-class _RegularPriceListAddPageState extends State<RegularPriceListAddPage> {
+class _ShoppingListAddPageState extends State<ShoppingListAddPage> {
   String _text='';
 
   @override

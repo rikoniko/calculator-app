@@ -25,10 +25,38 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
       body: ListView.builder(
         itemCount: regularPriceList.length,
         itemBuilder: (context,index){
-          return Card(
+          /*return Card(
             child: ListTile(
               title: Text(regularPriceList[index]),
             ),
+          );*/
+          return DataTable(
+            columns: const <DataColumn>[
+              DataColumn(
+                label: Text(
+                  '１つの値段',
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  '個',
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'メモ',
+                ),
+              ),
+            ],
+            rows: <DataRow>[
+              DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text(regularPriceList[index])),
+                    DataCell(Text('1')),
+                    DataCell(Text('チョコ')),
+                  ]
+              ),
+            ],
           );
         },
       ),
@@ -52,35 +80,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
 }
 
 
-/*class TotalAmountCalculation extends StatelessWidget {
-  const TotalAmountCalculation({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title:const Text('合計金額計算'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: const [
-          RegularPriceList()
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async{
-          final newListText=await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) {
-              return RegularPriceListAddPage();
-            }),
-          );
-        },
-        child: Icon(Icons.add),
-      ),
-    );
-  }
-
-}
+/*
 
 class RegularPriceList extends StatelessWidget {
   const RegularPriceList({Key? key}) : super(key: key);
