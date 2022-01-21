@@ -1,4 +1,7 @@
-import 'package:calculator_app/regular_price_list_add_page.dart';
+import 'package:calculator_app/total_amount_calculation/product_list.dart';
+import 'package:calculator_app/total_amount_calculation/products.dart';
+import 'package:calculator_app/total_amount_calculation/regular_price_list_add_page.dart';
+import 'package:calculator_app/utils.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,10 +16,61 @@ class TotalAmountCalculation extends StatefulWidget {
 }
 
 class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
-
+  late List<Product> products;
   List<String> regularPriceList=[];
 
+
   @override
+  void initState(){
+    super.initState();
+    this.products=List.of(allProducts);
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title:const Text('合計金額計算'),
+      ),
+      body: buildDateTable(),
+    );
+  }
+
+  Widget buildDateTable() {
+    final colums=["値段","個数","メモ"];
+
+    return SizedBox(
+      width: double.infinity,
+      child:DataTable(
+        columns: getColumns(colums),
+        rows: getRows(products),
+      ),
+    );
+  }
+
+  List<DataColumn> getColumns(List<String> columns){
+    return columns.map((String coloum){
+      return DataColumn(
+        label: Text(coloum),
+      );
+    }).toList();
+  }
+
+  List<DataRow> getRows(List<Product> products) {
+    return products.map((Product product){
+      final cells=[product.price,product.number,product.text];
+
+      return DataRow(
+        cells: Utils.modelBuilder(cells,(index,cell){
+          return DataCell(
+            Text('$cell'),
+          );
+        }),
+      );
+    }).toList();
+  }
+
+  /*@override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -25,11 +79,6 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
       body: ListView.builder(
         itemCount: regularPriceList.length,
         itemBuilder: (context,index){
-          /*return Card(
-            child: ListTile(
-              title: Text(regularPriceList[index]),
-            ),
-          );*/
           return DataTable(
             columns: const <DataColumn>[
               DataColumn(
@@ -76,7 +125,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
          child: Icon(Icons.add),
       )
     );
-  }
+  }*/
 }
 
 

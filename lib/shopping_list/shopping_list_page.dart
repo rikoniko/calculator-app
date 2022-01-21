@@ -1,5 +1,5 @@
-import 'package:calculator_app/regular_price_list_add_page.dart';
 import 'package:flutter/material.dart';
+import 'shopping_list_add_page.dart';
 
 void main() {
   runApp(const ShoppingListPage());
@@ -14,7 +14,7 @@ class ShoppingListPage extends StatefulWidget {
 
 class _ShoppingListPageState extends State<ShoppingListPage> {
 
-  List<String> regularPriceList=[];
+  List<String> shoppingList=[];
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +23,11 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           title: const Text("買い物リスト"),
         ),
         body: ListView.builder(
-          itemCount: regularPriceList.length,
+          itemCount: shoppingList.length,
           itemBuilder: (context,index){
             return Card(
             child: ListTile(
-              title: Text(regularPriceList[index]),
+              title: Text(shoppingList[index]),
             ),
           );
           },
@@ -36,16 +36,16 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           onPressed: () async{
             final newListText=await Navigator.of(context).push(
               MaterialPageRoute(builder: (context) {
-                return RegularPriceListAddPage();
+                return const ShoppingListAddPage();
               }),
             );
             if(newListText!=null){
               setState(() {
-                regularPriceList.add(newListText);
+                shoppingList.add(newListText);
               });
             }
           },
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         )
     );
   }
