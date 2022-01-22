@@ -6,6 +6,13 @@ import 'shopping_list/shopping_list_page.dart';
 import 'todo/main.dart';
 import 'total_amount_calculation/total_amount_calculation_page.dart';
 
+const kColorPrimary = Color(0xFFFFDC80);
+const kColorText = Color(0xFF182435);
+const kColorBackground = Color(0xFFF3F3F3);
+const kColorRed = Color(0xFF182435);
+const kColorGreen = Color(0xFF56C293);
+const kColorGrey = Color(0xFFF8F5EA);
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,6 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       supportedLocales: const [Locale('ja','JP')],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -25,8 +33,7 @@ class MyApp extends StatelessWidget {
       ],
       title: '楽する買い物',
       theme:ThemeData(
-        primarySwatch:Colors.blue,
-        //visualDensity: VisualDensity.adaptivePlatformDensity,
+        primaryColor: const Color(0xFFF3F3F3),
       ),
       home: const MyHomePage(),
     );
@@ -46,60 +53,132 @@ class _MyHomePageState extends State<MyHomePage>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title:const Text('楽する買い物'),
+        title:const Text(
+            '楽する買い物',
+            style: TextStyle(color:kColorText),
+        ),
+        backgroundColor:kColorPrimary,
       ),
-      body: Center(
-        child: Column(
-          children: [
-            ElevatedButton(
-              child: const Text('電卓'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CalculationPage()),
-                );
-              },
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Expanded(
+            flex: 3,
+            child:Container(
+              margin: const EdgeInsets.only(bottom:10),
+              width: double.infinity,
+              color: kColorGrey,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ElevatedButton.icon(
+                      label: const Text(
+                        '電卓',
+                        style: TextStyle(
+                            color:kColorText,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500
+                        ),
+                      ),
+                      icon: const Icon(
+                        Icons.calculate_outlined,
+                        color:kColorText,
+                        size: 30.0,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: kColorPrimary,
+                        elevation: 1,
+                        fixedSize: const Size(200, 50),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const CalculationPage()),
+                        );
+                      },
+                    ),
+                  ]
+              ),
             ),
-            /*ElevatedButton(
-              child: const Text('合計金額の計算'),
-              onPressed: () {
-                //Navigator.of(context).push(TotalAmountCalculation(price: 'ああ', number: 1,text:'ああ')),
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const TotalAmountCalculation()),
-                );
-              },
-            ),*/
-            ElevatedButton(
-              child: const Text('買い物リスト'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ShoppingListPage()),
-                );
-              },
+          ),
+          Expanded(
+            flex: 3,
+            child: Container(
+              margin: const EdgeInsets.only(bottom:10),
+              width: double.infinity,
+              color: kColorGrey,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ElevatedButton.icon(
+                      label:const Text(
+                        '買い物リスト',
+                        style: TextStyle(
+                            color:kColorText,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500
+                        ),
+                      ),
+                      icon: const Icon(
+                        Icons.checklist,
+                        color:kColorText,
+                        size: 30.0,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: kColorPrimary,
+                        elevation: 1,
+                        fixedSize: const Size(200, 50),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ShoppingListPage()),
+                        );
+                      },
+                    ),
+                  ]
+              ),
             ),
-            ElevatedButton(
-              child: const Text('todo'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const TodoListApp()),
-                );
-              },
+          ),
+          Expanded(
+            flex:3,
+            child: Container(
+              width: double.infinity,
+              color: kColorGrey,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ElevatedButton.icon(
+                      label: const Text(
+                        '合計金額計算',
+                        style: TextStyle(
+                            color:kColorText,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500
+                        ),
+                      ),
+                      icon: const Icon(
+                        Icons.attach_money_outlined,
+                        color:kColorText,
+                        size: 30.0,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: kColorPrimary,
+                        elevation: 1,
+                        fixedSize: const Size(200, 50),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const TotalAmountCalculation()),
+                        );
+                      },
+                    ),
+                  ]
+              ),
             ),
-            ElevatedButton(
-              child: const Text('合計金額計算'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const TotalAmountCalculation()),
-                );
-              },
-            ),
-          ],
-        )
-
+          ),
+        ],
       ),
     );
   }
