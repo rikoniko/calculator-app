@@ -1,10 +1,16 @@
 import 'dart:async';
-
 import 'package:calculator_app/total_amount_calculation/regular_price_list_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'regular_price_list_store.dart';
 import 'total_amount_calculation.dart';
+
+const kColorPrimary = Color(0xFFFFDC80);
+const kColorText = Color(0xFF182435);
+const kColorBackground = Color(0xFFF3F3F3);
+const kColorRed = Color(0xFF182435);
+const kColorGreen = Color(0xFF56C293);
+const kColorGrey = Color(0xFFF8F5EA);
 
 void main() {
   runApp(const TotalAmountCalculation());
@@ -49,8 +55,11 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // アプリケーションバーに表示するタイトル
-        title: const Text('合計金額計算'),
+        title:const Text(
+          '合計金額計算',
+          style: TextStyle(color:kColorText),
+        ),
+        backgroundColor:kColorPrimary,
       ),
       body: Column(
         children: [
@@ -138,9 +147,8 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
         ],
 
       ),
-      // Todo追加画面に遷移するボタン
       floatingActionButton: FloatingActionButton(
-        // Todo追加画面に遷移する
+        backgroundColor: kColorGreen,
         onPressed: _pushTodoInputPage,
         child: const Icon(Icons.add),
       ),

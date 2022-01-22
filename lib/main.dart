@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
       title: '楽する買い物',
       theme:ThemeData(
         primaryColor: const Color(0xFFF3F3F3),
+        scaffoldBackgroundColor: const Color(0xFFEAE9E7),
       ),
       home: const MyHomePage(),
     );
@@ -65,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage>{
           Expanded(
             flex: 3,
             child:Container(
-              margin: const EdgeInsets.only(bottom:10),
+              margin: const EdgeInsets.only(bottom:5),
               width: double.infinity,
               color: kColorGrey,
               child: Column(
@@ -104,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage>{
           Expanded(
             flex: 3,
             child: Container(
-              margin: const EdgeInsets.only(bottom:10),
+              margin: const EdgeInsets.only(bottom:5),
               width: double.infinity,
               color: kColorGrey,
               child: Column(

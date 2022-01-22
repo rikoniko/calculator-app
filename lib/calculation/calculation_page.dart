@@ -2,6 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'calculation.dart';
 
+const kColorPrimary = Color(0xFFFFDC80);
+const kColorText = Color(0xFF182435);
+const kColorBackground = Color(0xFFF3F3F3);
+const kColorRed = Color(0xFF182435);
+const kColorGreen = Color(0xFF56C293);
+const kColorGrey = Color(0xFFF8F5EA);
+
 void main() {
   runApp(const CalculationPage());
 }
@@ -12,17 +19,21 @@ class CalculationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title:Text('電卓'),
+      appBar: AppBar(
+        title:const Text(
+          '電卓',
+          style: TextStyle(color:kColorText),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            TextField(),
-            Keybutton(),
-          ],
-        ),
-      );
+        backgroundColor:kColorPrimary,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const TextField(),
+          Keybutton(),
+        ],
+      ),
+    );
   }
 }
 
@@ -94,7 +105,7 @@ class Keybutton extends StatelessWidget {
         flex: 2,
         child: Center(
             child: Container(
-              color: const Color(0xff87cefa),
+              color: kColorBackground,
               child: GridView.count(
                 crossAxisCount: 4,
                 mainAxisSpacing: 3.0,
@@ -122,12 +133,20 @@ class Button extends StatelessWidget {
           child: Center(
             child: Text(
               num,
-              style: TextStyle(fontSize: 46.0),
+              style: const TextStyle(
+                  color:kColorText,
+                  fontSize: 40,
+                  fontWeight: FontWeight.w500
+              ),
             ),
           ),
           onPressed: (){
             _TextFiledState.controller.sink.add(num);
           },
+          style: ElevatedButton.styleFrom(
+            primary: kColorPrimary,
+            elevation: 1,
+          ),
         )
     );
 
