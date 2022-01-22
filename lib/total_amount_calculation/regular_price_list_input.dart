@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'regular_price_list_store.dart';
 import 'total_amount_calculation.dart';
 
+const kColorPrimary = Color(0xFFFFDC80);
+const kColorText = Color(0xFF182435);
+const kColorBackground = Color(0xFFF3F3F3);
+const kColorRed = Color(0xFF182435);
+const kColorGreen = Color(0xFF56C293);
+const kColorGrey = Color(0xFFF8F5EA);
+
 class RegularPriceInputPage extends StatefulWidget {
   final RegularPrice? regularPrice;
 
@@ -46,8 +53,11 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      // アプリケーションバーに表示するタイトル
-        title: Text(_isCreateRegularPrice ? 'Todo追加' : 'Todo更新'),
+        title:Text(
+          _isCreateRegularPrice ? '商品追加' : '商品詳細',
+          style: TextStyle(color:kColorText),
+        ),
+        backgroundColor:kColorPrimary,
       ),
       body: Container(
         padding: const EdgeInsets.all(30),
@@ -61,12 +71,12 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
                   labelText: "値段",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.blue,
+                      color: kColorText,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.blue,
+                      color: kColorText,
                     ),
                   ),
                 ),
@@ -83,12 +93,12 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
                   labelText: "詳細",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.blue,
+                      color: kColorText,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.blue,
+                      color: kColorText,
                     ),
                   ),
                 ),
@@ -107,12 +117,12 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
                   labelText: "メモ",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.blue,
+                      color: kColorText,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.blue,
+                      color: kColorText,
                     ),
                   ),
                 ),
@@ -140,7 +150,12 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
                   },
                   child: Text(
                     _isCreateRegularPrice ? '追加' : '更新',
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: kColorText),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: kColorPrimary,
+                    elevation: 1,
+                    fixedSize: const Size(200, 50),
                   ),
                 ),
               ),
@@ -148,20 +163,14 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
               //キャンセルボタン
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: OutlinedButton(
                   onPressed: () {
                     // Todoリスト画面に戻る
                     Navigator.of(context).pop();
                   },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    side: const BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
                   child: const Text(
                     "キャンセル",
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: kColorText),
                   ),
                 ),
               ),

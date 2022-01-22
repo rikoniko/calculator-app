@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'shopping_list_add_page.dart';
 
+const kColorPrimary = Color(0xFFFFDC80);
+const kColorText = Color(0xFF182435);
+const kColorBackground = Color(0xFFF3F3F3);
+const kColorRed = Color(0xFFE86D6C);
+const kColorGreen = Color(0xFF56C293);
+const kColorGrey = Color(0xFFF8F5EA);
+
 void main() {
   runApp(const ShoppingListPage());
 }
@@ -20,7 +27,11 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("買い物リスト"),
+          title:const Text(
+            '買い物リスト',
+            style: TextStyle(color:kColorText),
+          ),
+          backgroundColor:kColorPrimary,
         ),
         body: ListView.builder(
           itemCount: shoppingList.length,
@@ -33,6 +44,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           },
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: kColorGreen,
           onPressed: () async{
             final newListText=await Navigator.of(context).push(
               MaterialPageRoute(builder: (context) {
@@ -46,6 +58,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
             }
           },
           child: const Icon(Icons.add),
+
         )
     );
   }
