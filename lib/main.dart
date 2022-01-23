@@ -48,9 +48,247 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage>{
+class _MyHomePageState extends State<MyHomePage> {
 
   @override
+  Widget build(BuildContext context) {
+    final topPadding = MediaQuery
+        .of(context)
+        .padding
+        .top;
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(colors: [
+          Color.fromRGBO(145, 131, 222, 1),
+          Color.fromRGBO(160, 148, 227, 1),
+        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+      ),
+      child: Scaffold(
+        backgroundColor: kColorPrimary,
+        body: SizedBox(
+          width: double.infinity,
+          child: Column(
+            children: [
+              SizedBox(height: topPadding),
+              const SizedBox(height: 10),
+              const AnimatedImage(),
+              const SizedBox(height: 30),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children:[
+                      Expanded(
+                        child:Container(
+                          margin: const EdgeInsets.only(bottom:10),
+                          width: double.infinity,
+                          color: kColorPrimary,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                ElevatedButton.icon(
+                                  label: const Text(
+                                    '電卓',
+                                    style: TextStyle(
+                                        color:kColorText,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.calculate_outlined,
+                                    color:kColorText,
+                                    size: 30.0,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                    elevation: 1,
+                                    fixedSize: const Size(200, 50),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const CalculationPage()),
+                                    );
+                                  },
+                                ),
+                              ]
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child:Container(
+                          margin: const EdgeInsets.only(bottom:5),
+                          width: double.infinity,
+                          color: kColorPrimary,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                ElevatedButton.icon(
+                                  label: const Text(
+                                    '電卓',
+                                    style: TextStyle(
+                                        color:kColorText,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.calculate_outlined,
+                                    color:kColorText,
+                                    size: 30.0,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary:Colors.white,
+                                    elevation: 1,
+                                    fixedSize: const Size(200, 50),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const CalculationPage()),
+                                    );
+                                  },
+                                ),
+                              ]
+                          ),
+                        ),
+                      ),
+                    ]
+
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child:Container(
+                          margin: const EdgeInsets.only(bottom:5),
+                          width: double.infinity,
+                          color: kColorPrimary,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                ElevatedButton.icon(
+                                  label: const Text(
+                                    '電卓',
+                                    style: TextStyle(
+                                        color:kColorText,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.calculate_outlined,
+                                    color:kColorText,
+                                    size: 30.0,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                    elevation: 1,
+                                    fixedSize: const Size(200, 50),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const CalculationPage()),
+                                    );
+                                  },
+                                ),
+                              ]
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child:Container(
+                          margin: const EdgeInsets.only(bottom:5),
+                          width: double.infinity,
+                          color: kColorPrimary,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                ElevatedButton.icon(
+                                  label: const Text(
+                                    '電卓',
+                                    style: TextStyle(
+                                        color:kColorText,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.calculate_outlined,
+                                    color:kColorText,
+                                    size: 30.0,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                    elevation: 1,
+                                    fixedSize: const Size(200, 50),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const CalculationPage()),
+                                    );
+                                  },
+                                ),
+                              ]
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              )
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AnimatedImage extends StatefulWidget {
+  const AnimatedImage({Key? key}) : super(key: key);
+
+  @override
+  _AnimatedImageState createState() => _AnimatedImageState();
+}
+
+class _AnimatedImageState extends State<AnimatedImage>
+    with SingleTickerProviderStateMixin{
+  late final AnimationController _controller=AnimationController(
+    vsync: this,
+    duration: const Duration(seconds:2),
+  )..repeat(reverse: true);
+
+  late final Animation<Offset> _animation=Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(0.05,0.05),
+  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Image.asset('assets/images/products.png'),
+        SlideTransition(
+          position: _animation,
+          child: Image.asset('assets/images/shopping_person.png'),
+        ),
+      ],
+    );
+  }
+}
+
+  /*@override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
@@ -182,7 +420,7 @@ class _MyHomePageState extends State<MyHomePage>{
         ],
       ),
     );
-  }
-}
+  }*/
+
 
 

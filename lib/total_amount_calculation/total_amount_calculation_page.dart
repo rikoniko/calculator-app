@@ -8,7 +8,7 @@ import 'total_amount_calculation.dart';
 const kColorPrimary = Color(0xFFFFDC80);
 const kColorText = Color(0xFF182435);
 const kColorBackground = Color(0xFFF3F3F3);
-const kColorRed = Color(0xFF182435);
+const kColorRed = Color(0xFFE86D6C);
 const kColorGreen = Color(0xFF56C293);
 const kColorGrey = Color(0xFFF8F5EA);
 
@@ -27,6 +27,7 @@ class TotalAmountCalculation extends StatefulWidget {
 class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
   int sum=0;
   final RegularPriceListStore _store=RegularPriceListStore();
+
   void _pushTodoInputPage([RegularPrice? regularPrice]) async {
     await Navigator.of(context).push(
       MaterialPageRoute(
@@ -37,7 +38,6 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
     );
     setState(() {});
   }
-
 
   @override
   void initState() {
@@ -89,7 +89,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                         // Todo編集画面に遷移する
                         _pushTodoInputPage(item);
                       },
-                      backgroundColor: Colors.yellow,
+                      backgroundColor: kColorGreen,
                       icon: Icons.edit,
                       label: '編集',
                     ),
@@ -107,7 +107,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                           _store.delete(item),
                         });
                       },
-                      backgroundColor: Colors.red,
+                      backgroundColor: kColorRed,
                       icon: Icons.edit,
                       label: '削除',
                     ),
