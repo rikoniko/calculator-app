@@ -53,24 +53,28 @@ class ButtonTotalAmountCalculation extends StatelessWidget {
         margin: const EdgeInsets.only(right:10),
         height: 130,
         color: kColorPrimary,
-        child: ElevatedButton.icon(
-          label: const Text(
-            'お会計',
-            style: TextStyle(
-                color:kColorText,
-                fontSize: 20,
-                fontWeight: FontWeight.w500
-            ),
-          ),
-          icon: const Icon(
-            Icons.calculate_outlined,
-            color:kColorText,
-            size: 30.0,
+        child:ElevatedButton(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Image(
+                width: 55,
+                image: AssetImage('assets/images/receipt.png'),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'お会計',
+                style: TextStyle(
+                    color:kColorText,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500
+                ),
+              ),
+            ],
           ),
           style: ElevatedButton.styleFrom(
             primary: Colors.white,
             elevation: 1,
-            //fixedSize: const Size(200, 50),
           ),
           onPressed: () {
             Navigator.push(
@@ -78,7 +82,7 @@ class ButtonTotalAmountCalculation extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const TotalAmountCalculation()),
             );
           },
-        ),
+        )
       ),
     );
   }
@@ -93,32 +97,36 @@ class ButtonShoppingList extends StatelessWidget {
       child: Container(
         height: 130,
         color: kColorPrimary,
-        child: ElevatedButton.icon(
-          label: const Text(
-            '買い物リスト',
-            style: TextStyle(
-                color:kColorText,
-                fontSize: 20,
-                fontWeight: FontWeight.w500
+          child:ElevatedButton(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Image(
+                  width: 58,
+                  image: AssetImage('assets/images/shopping_cart.png'),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '買い物リスト',
+                  style: TextStyle(
+                      color:kColorText,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500
+                  ),
+                ),
+              ],
             ),
-          ),
-          icon: const Icon(
-            Icons.calculate_outlined,
-            color:kColorText,
-            size: 30.0,
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            elevation: 1,
-            //fixedSize: const Size(200, 50),
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ShoppingListPage()),
-            );
-          },
-        ),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              elevation: 1,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ShoppingListPage()),
+              );
+            },
+          )
       ),
     );
   }
@@ -134,32 +142,36 @@ class ButtonCalculation extends StatelessWidget {
         margin: const EdgeInsets.only(right:10),
         height: 130,
         color: kColorPrimary,
-        child: ElevatedButton.icon(
-          label: const Text(
-            '電卓',
-            style: TextStyle(
-                color:kColorText,
-                fontSize: 20,
-                fontWeight: FontWeight.w500
+          child:ElevatedButton(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Image(
+                  width: 58,
+                  image: AssetImage('assets/images/calculation.png'),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '電卓',
+                  style: TextStyle(
+                      color:kColorText,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500
+                  ),
+                ),
+              ],
             ),
-          ),
-          icon: const Icon(
-            Icons.calculate_outlined,
-            color:kColorText,
-            size: 30.0,
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            elevation: 1,
-            //fixedSize: const Size(200, 50),
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CalculationPage()),
-            );
-          },
-        ),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              elevation: 1,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CalculationPage()),
+              );
+            },
+          )
       ),
     );
   }
