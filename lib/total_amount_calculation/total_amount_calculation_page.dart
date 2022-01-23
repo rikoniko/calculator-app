@@ -25,7 +25,9 @@ class TotalAmountCalculation extends StatefulWidget {
 }
 
 class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
+  //合計金額
   int sum=0;
+
   final RegularPriceListStore _store=RegularPriceListStore();
 
   void _pushTodoInputPage([RegularPrice? regularPrice]) async {
@@ -42,11 +44,10 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
   @override
   void initState() {
     super.initState();
-
-    Future(
-          () async {
-        // ストアからTodoリストデータをロードし、画面を更新する
-        setState(() => _store.load());
+    Future(() async {
+        // データをロードしてからsetStateで更新
+        _store.load();
+        setState(() {});
       },
     );
   }
