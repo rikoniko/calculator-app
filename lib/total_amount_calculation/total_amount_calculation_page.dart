@@ -38,6 +38,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
         },
       ),
     );
+    AddPrice();
     setState(() {});
   }
 
@@ -47,6 +48,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
     Future(() async {
         // データをロードしてからsetStateで更新
         _store.load();
+        AddPrice();
         setState(() {});
       },
     );
@@ -78,7 +80,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
               // インデックスに対応する商品を取得する
               var item = _store.finalByIndex(index);
               //合計金額の計算
-              sum+=int.parse(item.price)*int.parse(item.number);
+              //sum+=int.parse(item.price)*int.parse(item.number);
               return Slidable(
                 // 右方向にリストアイテムをスライドした場合のアクション
                 startActionPane: ActionPane(
@@ -106,6 +108,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                         // Todoを削除し、画面を更新する
                         setState(() => {
                           _store.delete(item),
+                          AddPrice(),
                         });
                       },
                       backgroundColor: kColorRed,
@@ -156,6 +159,15 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
     );
   }
 
-
+  //合計金額の計算
+  void AddPrice(){
+    //初期化
+    sum=0;
+    for(var i=0;i<_store.count();i++){
+      var item = _store.finalByIndex(i);
+      sum+=int.parse(item.number)*int.parse(item.price);
+      print(sum);
+    }
+  }
 }
 
