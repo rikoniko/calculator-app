@@ -55,7 +55,7 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
       appBar: AppBar(
         title:Text(
           _isCreateRegularPrice ? '商品追加' : '商品詳細',
-          style: TextStyle(color:kColorText),
+          style: const TextStyle(color:kColorText),
         ),
         backgroundColor:kColorPrimary,
       ),
@@ -66,8 +66,10 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
             children:<Widget>[
               const SizedBox(height: 20),
               TextField(
+                keyboardType: TextInputType.number,
                 autofocus: true,
                 decoration: const InputDecoration(
+
                   labelText: "値段",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -90,7 +92,7 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
               TextField(
                 autofocus: true,
                 decoration: const InputDecoration(
-                  labelText: "詳細",
+                  labelText: "個数",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       color: kColorText,
