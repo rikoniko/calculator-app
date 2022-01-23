@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'button_area_widget.dart';
+import 'total_amount_calculation/regular_price_list_store.dart';
 
 const kColorPrimary = Color(0xFFFFDC80);
 const kColorText = Color(0xFF182435);
@@ -46,6 +47,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  final RegularPriceListStore _store=RegularPriceListStore();
+  @override
+  void initState() {
+    super.initState();
+    _store.load();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
