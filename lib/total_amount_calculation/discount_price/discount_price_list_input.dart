@@ -77,7 +77,6 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
               const SizedBox(height: 20),
               ///商品名
               TextField(
-                keyboardType: TextInputType.number,
                 autofocus: true,
                 decoration: const InputDecoration(
                   labelText: "商品",
