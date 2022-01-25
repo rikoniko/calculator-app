@@ -60,7 +60,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
         children: [
           Row(
               children: const [
-                Expanded(child: Text('', style: TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
+                //Expanded(child: Text('', style: TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
                 Expanded(child: Text('値段', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
                 Expanded(child: Text('個数', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
                 Expanded(child: Text('メモ', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
@@ -72,7 +72,6 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
               // インデックスに対応する商品を取得する
               var item = _store.finalByIndex(index);
               //合計金額の計算
-              //sum+=int.parse(item.price)*int.parse(item.number);
               return Slidable(
                 // 右方向にリストアイテムをスライドした場合のアクション
                 startActionPane: ActionPane(
@@ -116,10 +115,9 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                     ),
                   ),
                   child: ListTile(
-                    leading: Text(item.id.toString()),
                     title: Row(
                       children: <Widget>[
-                        Expanded(child: Text(item.price+"円")),
+                        Expanded(child: Text(item.price+" 円")),
                         Expanded(child: Text(item.number)),
                         Expanded(child: Text(item.memo)),
                       ],
@@ -134,13 +132,11 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
           const SizedBox(height: 10),
           Row(
               children: const [
-                Expanded(child: Text('', style: TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
                 Expanded(child: Text('商品名', style: TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
                 Expanded(child: Text('値段', style:  TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
-                Expanded(child: Text('何', style: TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
-                Expanded(child: Text('割引?％引?', style: TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
+                Expanded(child: Text('割引or％OFF', style: TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
                 Expanded(child: Text('個数', style:  TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
-                Expanded(child: Text('メモ', style:  TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
+                //Expanded(child: Text('メモ', style:  TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
               ]
           ),
           Expanded(child:ListView.builder(
@@ -175,7 +171,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                         // Todoを削除し、画面を更新する
                         setState(() => {
                           _discountStore.delete(item),
-                          //AddPrice(),
+                          AddPrice(),
                         });
                       },
                       backgroundColor: kColorRed,
@@ -191,15 +187,14 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                     ),
                   ),
                   child: ListTile(
-                    leading: Text(item.id.toString()),
                     title: Row(
                       children: <Widget>[
                         Expanded(child: Text(item.discountProduct)),
-                        Expanded(child: Text(item.discountPrice)),
-                        Expanded(child: Text(item.discountNumber)),
-                        Expanded(child: Text(item.discountMethod)),
+                        Expanded(child: Text(item.discountPrice+" 円")),
+                        Expanded(child: Text(item.discountNumber+item.discountMethod)),
+                        //Expanded(child: Text(item.discountMethod)),
                         Expanded(child: Text(item.discountProductNumber)),
-                        Expanded(child: Text(item.discountMemo)),
+                        //Expanded(child: Text(item.discountMemo)),
                       ],
                     ),
                   ),
@@ -276,6 +271,19 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
       var item = _store.finalByIndex(i);
       sum+=int.parse(item.number)*int.parse(item.price);
       print(sum);
+    }
+
+    for(var j=0;j<_discountStore.count();j++){
+      var item=_discountStore.finalByIndex(j);
+      switch (item.discountMethod){
+        case "割引":
+          sum+=(int.parse(item.discountPrice)*(1-int.parse(item.discountNumber)*0.1)*int.parse(item.discountProductNumber)) as int;
+          break;
+        case "%OFF":
+          sum+=(int.parse(item.discountPrice)*(1-int.parse(item.discountNumber)*0.01)*int.parse(item.discountProductNumber)) as int;
+          break;
+      }
+
     }
   }
 

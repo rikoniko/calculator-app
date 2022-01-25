@@ -43,6 +43,9 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
   //メモ
   late String _discountMemo;
 
+  final methodItems=['割引','%OFF'];
+  String? methodValue;
+
   @override
   void initState() {
     super.initState();
@@ -141,27 +144,15 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
                   _discountNumber = value;
                 },
               ),
-              ///％引or割引
-              TextField(
-                keyboardType: TextInputType.number,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  labelText: "％引or割引",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                ),
-                // TextEditingControllerを使用することで、いちいちsetStateしなくても画面を更新してくれる
-                controller: TextEditingController(text: _discountMethod),
-                onChanged: (String value) {
-                  _discountMethod = value;
+              ///％OFFor割引
+              DropdownButton(
+                value: methodValue,
+                items: methodItems.map(buildMenuItem).toList(),
+                onChanged: (value){
+                  setState(() {
+                    methodValue=value as String?;
+                    _discountMethod=value!;
+                  });
                 },
               ),
               ///個数
@@ -181,7 +172,6 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
                     ),
                   ),
                 ),
-                // TextEditingControllerを使用することで、いちいちsetStateしなくても画面を更新してくれる
                 controller: TextEditingController(text: _discountProductNumber),
                 onChanged: (String value) {
                   _discountProductNumber = value;
@@ -205,7 +195,6 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
                     ),
                   ),
                 ),
-                // TextEditingControllerを使用することで、いちいちsetStateしなくても画面を更新してくれる
                 controller: TextEditingController(text: _discountMemo),
                 onChanged: (String value) {
                   _discountMemo = value;
@@ -259,4 +248,16 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
       ),
     );
   }
+
+  DropdownMenuItem<String> buildMenuItem(String method)=> DropdownMenuItem(
+        value: method,
+      child: Text(
+        method,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      ),
+    );
+
 }
