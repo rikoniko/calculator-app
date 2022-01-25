@@ -49,187 +49,242 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:const Text(
-          '合計金額計算',
-          style: TextStyle(color:kColorText),
-        ),
+        // title:const Text(
+        //   '合計金額計算',
+        //   style: TextStyle(color:kColorText),
+        // ),
+        elevation: 0,
         backgroundColor:kColorPrimary,
       ),
-      body: SingleChildScrollView(
-        child:Column(
-          children: [
-            Text(
-              '$sum',
-              style: const TextStyle(
-                fontSize: 30.0,
-              ),
+      body:Column(
+        children: [
+          Material(
+            color: kColorPrimary,
+            elevation: 5,
+            shadowColor: kColorPrimary,
+            borderRadius: const BorderRadius.only(
+              bottomRight: Radius.circular(24),
+              bottomLeft: Radius.circular(24),
             ),
-
-            Row(
-                children:const [
-                  //Expanded(child: Text('', style: TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
-                  Expanded(child: Text('値段', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
-                  Expanded(child: Text('個数', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
-                  Expanded(child: Text('メモ', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
-                ]
-            ),
-            ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemExtent: 50,
-                itemCount: _store.count(),
-                itemBuilder: (context, index) {
-                  // インデックスに対応する商品を取得する
-                  var item = _store.finalByIndex(index);
-                  //合計金額の計算
-                  return Slidable(
-                    // 右方向にリストアイテムをスライドした場合のアクション
-                    startActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      extentRatio: 0.25,
-                      children: [
-                        SlidableAction(
-                          onPressed: (context) {
-                            // Todo編集画面に遷移する
-                            _pushRegularPriceInputPage(item);
-                          },
-                          backgroundColor: kColorGreen,
-                          icon: Icons.edit,
-                          label: '編集',
-                        ),
-                      ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                    padding: EdgeInsets.only(
+                      left:110,
+                      bottom: 25,
                     ),
-                    // 左方向にリストアイテムをスライドした場合のアクション
-                    endActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      extentRatio: 0.25,
-                      children: [
-                        SlidableAction(
-                          onPressed: (context) {
-                            // Todoを削除し、画面を更新する
-                            setState(() => {
-                              _store.delete(item),
-                              AddPrice(),
-                            });
-                          },
-                          backgroundColor: kColorRed,
-                          icon: Icons.edit,
-                          label: '削除',
-                        ),
-                      ],
+                  child: Text(
+                    '合計',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w700,
                     ),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                      child: ListTile(
-                        title: Row(
-                          children: <Widget>[
-                            Expanded(child: Text(item.price+" 円")),
-                            Expanded(child: Text(item.number)),
-                            Expanded(child: Text(item.memo)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-
-            ),
-            ///割引商品テーブル
-            const SizedBox(height: 10),
-            Row(
-                children: const [
-                  Expanded(child: Text('商品名', style: TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
-                  Expanded(child: Text('値段', style:  TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
-                  Expanded(child: Text('割引・％OFF', style: TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
-                  Expanded(child: Text('個数', style:  TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
-                  //Expanded(child: Text('メモ', style:  TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
-                ]
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _discountStore.count(),
-              itemBuilder: (context, index) {
-                // インデックスに対応する商品を取得する
-                var item = _discountStore.finalByIndex(index);
-                return Slidable(
-                  // 右方向にリストアイテムをスライドした場合のアクション
-                  startActionPane: ActionPane(
-                    motion: const ScrollMotion(),
-                    extentRatio: 0.25,
-                    children: [
-                      SlidableAction(
-                        onPressed: (context) {
-                          // Todo編集画面に遷移する
-                          _pushDiscountPriceInputPage(item);
-                        },
-                        backgroundColor: kColorGreen,
-                        icon: Icons.edit,
-                        label: '編集',
-                      ),
-                    ],
                   ),
-                  // 左方向にリストアイテムをスライドした場合のアクション
-                  endActionPane: ActionPane(
-                    motion: const ScrollMotion(),
-                    extentRatio: 0.25,
-                    children: [
-                      SlidableAction(
-                        onPressed: (context) {
-                          // Todoを削除し、画面を更新する
-                          setState(() => {
-                            _discountStore.delete(item),
-                            AddPrice(),
-                          });
-                        },
-                        backgroundColor: kColorRed,
-                        icon: Icons.edit,
-                        label: '削除',
-                      ),
-                    ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 30,
+                    bottom: 25,
                   ),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: Colors.grey),
-                      ),
+                  child: Text(
+                    '$sum',
+                    style: const TextStyle(
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.w700,
+                      color: kColorRed,
                     ),
-                    child: ListTile(
-                      title: Row(
-                        children: <Widget>[
-                          Expanded(child: Text(item.discountProduct)),
-                          Expanded(child: Text(item.discountPrice+" 円")),
-                          Expanded(child: Text(item.discountNumber+item.discountMethod)),
-                          //Expanded(child: Text(item.discountMethod)),
-                          Expanded(child: Text(item.discountProductNumber)),
-                          //Expanded(child: Text(item.discountMemo)),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(
+                    left: 10,
+                    bottom: 25,
+                  ),
+                  child: Text(
+                    '円',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Expanded(child: SingleChildScrollView(
+            child:Column(
+              children: [
+                Row(
+                    children:const [
+                      //Expanded(child: Text('', style: TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
+                      Expanded(child: Text('値段', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
+                      Expanded(child: Text('個数', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
+                      Expanded(child: Text('メモ', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
+                    ]
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemExtent: 50,
+                  itemCount: _store.count(),
+                  itemBuilder: (context, index) {
+                    // インデックスに対応する商品を取得する
+                    var item = _store.finalByIndex(index);
+                    //合計金額の計算
+                    return Slidable(
+                      // 右方向にリストアイテムをスライドした場合のアクション
+                      startActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        extentRatio: 0.25,
+                        children: [
+                          SlidableAction(
+                            onPressed: (context) {
+                              // Todo編集画面に遷移する
+                              _pushRegularPriceInputPage(item);
+                            },
+                            backgroundColor: kColorGreen,
+                            icon: Icons.edit,
+                            label: '編集',
+                          ),
                         ],
                       ),
-                    ),
+                      // 左方向にリストアイテムをスライドした場合のアクション
+                      endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        extentRatio: 0.25,
+                        children: [
+                          SlidableAction(
+                            onPressed: (context) {
+                              // Todoを削除し、画面を更新する
+                              setState(() => {
+                                _store.delete(item),
+                                AddPrice(),
+                              });
+                            },
+                            backgroundColor: kColorRed,
+                            icon: Icons.edit,
+                            label: '削除',
+                          ),
+                        ],
+                      ),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                        child: ListTile(
+                          title: Row(
+                            children: <Widget>[
+                              Expanded(child: Text(item.price+" 円")),
+                              Expanded(child: Text(item.number)),
+                              Expanded(child: Text(item.memo)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+
+                ),
+                ///割引商品テーブル
+                const SizedBox(height: 10),
+                Row(
+                    children: const [
+                      Expanded(child: Text('商品名', style: TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
+                      Expanded(child: Text('値段', style:  TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
+                      Expanded(child: Text('割引・％OFF', style: TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
+                      Expanded(child: Text('個数', style:  TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
+                      //Expanded(child: Text('メモ', style:  TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
+                    ]
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _discountStore.count(),
+                  itemBuilder: (context, index) {
+                    // インデックスに対応する商品を取得する
+                    var item = _discountStore.finalByIndex(index);
+                    return Slidable(
+                      // 右方向にリストアイテムをスライドした場合のアクション
+                      startActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        extentRatio: 0.25,
+                        children: [
+                          SlidableAction(
+                            onPressed: (context) {
+                              // Todo編集画面に遷移する
+                              _pushDiscountPriceInputPage(item);
+                            },
+                            backgroundColor: kColorGreen,
+                            icon: Icons.edit,
+                            label: '編集',
+                          ),
+                        ],
+                      ),
+                      // 左方向にリストアイテムをスライドした場合のアクション
+                      endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        extentRatio: 0.25,
+                        children: [
+                          SlidableAction(
+                            onPressed: (context) {
+                              // Todoを削除し、画面を更新する
+                              setState(() => {
+                                _discountStore.delete(item),
+                                AddPrice(),
+                              });
+                            },
+                            backgroundColor: kColorRed,
+                            icon: Icons.edit,
+                            label: '削除',
+                          ),
+                        ],
+                      ),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                        child: ListTile(
+                          title: Row(
+                            children: <Widget>[
+                              Expanded(child: Text(item.discountProduct)),
+                              Expanded(child: Text(item.discountPrice+" 円")),
+                              Expanded(child: Text(item.discountNumber+item.discountMethod)),
+                              //Expanded(child: Text(item.discountMethod)),
+                              Expanded(child: Text(item.discountProductNumber)),
+                              //Expanded(child: Text(item.discountMemo)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _pushDiscountPriceInputPage();
+                  },
+                  child: const Text(
+                    'リスト追加',
+                    style: TextStyle(color: kColorText),
                   ),
-                );
-              },
+                  style: ElevatedButton.styleFrom(
+                    primary: kColorPrimary,
+                    elevation: 1,
+                  ),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                _pushDiscountPriceInputPage();
-              },
-              child: const Text(
-                'リスト追加',
-                style: TextStyle(color: kColorText),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: kColorPrimary,
-                elevation: 1,
-              ),
-            ),
-          ],
-        ),
+          ),
+          ),
+        ],
       ),
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: kColorGreen,
         onPressed: _pushRegularPriceInputPage,
