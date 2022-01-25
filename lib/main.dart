@@ -1,3 +1,4 @@
+import 'package:calculator_app/total_amount_calculation/discount_price/discount_price_list_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -49,10 +50,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   final RegularPriceListStore _store=RegularPriceListStore();
+  final DiscountPriceListStore _discountStore=DiscountPriceListStore();
+
   @override
   void initState() {
     super.initState();
     _store.load();
+    _discountStore.load();
     setState(() {});
   }
 
