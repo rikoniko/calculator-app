@@ -230,7 +230,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kColorGreen,
-        onPressed: _pushDiscountPriceInputPage,
+        onPressed: _pushRegularPriceInputPage,
         child: const Icon(Icons.add),
       ),
 
@@ -275,15 +275,20 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
 
     for(var j=0;j<_discountStore.count();j++){
       var item=_discountStore.finalByIndex(j);
+      //小数点以下を切り捨てるため
+      double? floorItem;
       switch (item.discountMethod){
         case "割引":
-          sum+=(int.parse(item.discountPrice)*(1-int.parse(item.discountNumber)*0.1)*int.parse(item.discountProductNumber)) as int;
+          floorItem=int.parse(item.discountPrice)*(1-int.parse(item.discountNumber)*0.1)*int.parse(item.discountProductNumber);
+          sum+=floorItem.floor();
+          print(sum);
           break;
         case "%OFF":
-          sum+=(int.parse(item.discountPrice)*(1-int.parse(item.discountNumber)*0.01)*int.parse(item.discountProductNumber)) as int;
+          floorItem=int.parse(item.discountPrice)*(1-int.parse(item.discountNumber)*0.01)*int.parse(item.discountProductNumber);
+          sum+=floorItem.floor();
+          print(sum);
           break;
       }
-
     }
   }
 
