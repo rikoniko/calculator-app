@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:calculator_app/total_amount_calculation/regular_price_list_input.dart';
+import 'package:calculator_app/total_amount_calculation/regular_price/regular_price_list_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'regular_price_list_store.dart';
+import 'regular_price/regular_price_list_store.dart';
 import 'total_amount_calculation.dart';
 
 const kColorPrimary = Color(0xFFFFDC80);
@@ -29,18 +29,6 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
   int sum=0;
 
   final RegularPriceListStore _store=RegularPriceListStore();
-
-  void _pushTodoInputPage([RegularPrice? regularPrice]) async {
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return RegularPriceInputPage(regularPrice: regularPrice);
-        },
-      ),
-    );
-    AddPrice();
-    setState(() {});
-  }
 
   @override
   void initState() {
@@ -143,7 +131,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
               child:Text(
                 '$sum',
                 style: const TextStyle(
-                  fontSize: 64.0,
+                  fontSize: 30.0,
                 ),
               ),
             ),
@@ -157,6 +145,19 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void _pushTodoInputPage([RegularPrice? regularPrice]) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return RegularPriceInputPage(regularPrice: regularPrice);
+        },
+      ),
+    );
+    //合計金額を計算し直す
+    AddPrice();
+    setState(() {});
   }
 
   //合計金額の計算

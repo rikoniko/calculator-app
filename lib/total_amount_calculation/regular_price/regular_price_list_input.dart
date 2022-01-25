@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'regular_price_list_store.dart';
-import 'total_amount_calculation.dart';
+import '../total_amount_calculation.dart';
 
 const kColorPrimary = Color(0xFFFFDC80);
 const kColorText = Color(0xFF182435);
@@ -69,7 +69,6 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
                 keyboardType: TextInputType.number,
                 autofocus: true,
                 decoration: const InputDecoration(
-
                   labelText: "値段",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -90,6 +89,7 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
               ),
               const SizedBox(height: 20),
               TextField(
+                keyboardType: TextInputType.number,
                 autofocus: true,
                 decoration: const InputDecoration(
                   labelText: "個数",
