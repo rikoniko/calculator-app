@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 import 'dart:convert';
-import 'package:calculator_app/total_amount_calculation/total_amount_calculation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../total_amount_calculation.dart';
 
 class RegularPriceListStore{
   final String _saveKey="RegularPrice";
