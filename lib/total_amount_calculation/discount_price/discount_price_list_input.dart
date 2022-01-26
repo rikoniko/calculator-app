@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:calculator_app/total_amount_calculation/total_amount_calculation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'discount_price_list_store.dart';
 
@@ -46,11 +49,31 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
   final methodItems=['割引','%OFF'];
   String? methodValue;
 
+  /// オートコンプリート機能
+  bool isLoading=false;
+  late List<String> autoCompleteData;
+
+  Future fetchAutoCompleteData() async{
+    // jsonファイルが読み込まれているかを確認する
+    setState(() {
+      isLoading=true;
+    });
+    // jsonファイルを読むこむ
+    final String stringData =await rootBundle.loadString("assets/data/product.json");
+    // jsonデータをデコードしてDartで扱える型に変換する
+    final List<dynamic> json=jsonDecode(stringData);
+    final List<String> jsonStringData=json.cast<String>();
+
+    setState(() {
+      isLoading=false;
+      autoCompleteData=jsonStringData;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     var discountPriceList = widget.discountPriceList;
-
     _discountProduct = discountPriceList?.discountProduct ?? "";
     _discountPrice = discountPriceList?.discountPrice ?? "";
     _discountNumber=discountPriceList?.discountNumber ?? "";
@@ -60,6 +83,8 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
     _createDate = discountPriceList?.createDate ?? "";
     _updateDate = discountPriceList?.updateDate ?? "";
     _isCreateDiscountPrice = discountPriceList == null;
+    //オートコンプリートのデータを呼び出す
+    fetchAutoCompleteData();
   }
 
   @override
@@ -78,29 +103,9 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
         child:SingleChildScrollView(
           child:Column(
             children:<Widget>[
-              const SizedBox(height: 20),
               ///商品名
-              TextField(
-                autofocus: true,
-                decoration: const InputDecoration(
-                  labelText: "商品",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                ),
-                // TextEditingControllerを使用することで、いちいちsetStateしなくても画面を更新してくれる
-                controller: TextEditingController(text: _discountProduct),
-                onChanged: (String value) {
-                  _discountProduct = value;
-                },
-              ),
+              DiscountProductNameArea(),
+              const SizedBox(height: 20),
               ///値段
               TextField(
                 keyboardType: TextInputType.number,
@@ -260,5 +265,54 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
         ),
       ),
     );
+
+  Widget DiscountProductNameArea() {
+    return isLoading? const Center(child: CircularProgressIndicator(),):Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Autocomplete(
+            optionsBuilder: (TextEditingValue textEditingValue){
+              TextEditingController(text: _discountProduct);
+              if(textEditingValue.text.isEmpty){
+                return const Iterable<String>.empty();
+              }else{
+                return autoCompleteData.where((word) => word.contains(textEditingValue.text));
+              }
+            },
+            onSelected: (String selectedString){
+              _discountProduct=selectedString;
+            },
+            fieldViewBuilder: (context,textEditingController,focusNode,onEditingComplete){
+              return TextField(
+                autofocus: true,
+                decoration: const InputDecoration(
+                  labelText: "商品名",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: kColorText,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: kColorText,
+                    ),
+                  ),
+                ),
+                focusNode: focusNode,
+                onEditingComplete: onEditingComplete,
+                controller: textEditingController..text=_discountProduct,
+                //controller: TextEditingController(text: _product),
+                onChanged: (String value) {
+                  _discountProduct = value;
+                },
+              );
+            },
+          )
+        ],
+
+      ),
+    );
+  }
 
 }
