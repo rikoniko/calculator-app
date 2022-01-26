@@ -1,5 +1,6 @@
 class RegularPrice{
   late int id;
+  late String product;
   late String price;
   late String number;
   late String memo;
@@ -8,6 +9,7 @@ class RegularPrice{
 
   RegularPrice(
       this.id,
+      this.product,
       this.price,
       this.number,
       this.memo,
@@ -18,6 +20,7 @@ class RegularPrice{
   Map toJson(){
     return{
       'id':id,
+      'product':product,
       'price':price,
       'number':number,
       'memo':memo,
@@ -28,6 +31,7 @@ class RegularPrice{
 
   RegularPrice.fromJson(Map json){
     id=json['id'];
+    product=json['product'];
     price=json['price'];
     number=json['number'];
     memo=json['memo'];
