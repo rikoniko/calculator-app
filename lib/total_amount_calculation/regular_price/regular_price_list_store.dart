@@ -29,15 +29,18 @@ class RegularPriceListStore{
     return dateTime;
   }
 
-  void add(String price,String number,String memo){
+  void add(String product,String price,String number,String memo){
     var id = count() == 0 ? 1 : _list.last.id + 1;
     var dateTime = getDateTime();
-    var regularPrice=RegularPrice(id, price, number, memo, dateTime, dateTime);
+    var regularPrice=RegularPrice(id, product,price, number, memo, dateTime, dateTime);
     _list.add(regularPrice);
     save();
   }
 
-  void update(RegularPrice regularPrice,[String? price,String? number,String? memo]){
+  void update(RegularPrice regularPrice,[String? product,String? price,String? number,String? memo]){
+    if(product!=null){
+      regularPrice.product=product;
+    }
     if(price!=null){
       regularPrice.price=price;
     }

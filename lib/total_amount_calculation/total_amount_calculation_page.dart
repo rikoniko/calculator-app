@@ -7,12 +7,12 @@ import 'discount_price/discount_price_list_store.dart';
 import 'regular_price/regular_price_list_store.dart';
 import 'total_amount_calculation.dart';
 
-const kColorPrimary = Color(0xFFFFDC80);
+const kColorPrimary = Color(0xFF668CEC);
 const kColorText = Color(0xFF182435);
-const kColorBackground = Color(0xFFF3F3F3);
+const kColorBackground = Color(0xFFFFF1DC);
 const kColorRed = Color(0xFFE86D6C);
 const kColorGreen = Color(0xFF56C293);
-const kColorGrey = Color(0xFFF8F5EA);
+const kColorGrey = Color(0xFFFFF1DC);
 
 void main() {
   runApp(const TotalAmountCalculation());
@@ -49,10 +49,6 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // title:const Text(
-        //   '合計金額計算',
-        //   style: TextStyle(color:kColorText),
-        // ),
         elevation: 0,
         backgroundColor:kColorPrimary,
       ),
@@ -63,8 +59,8 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
             elevation: 5,
             shadowColor: kColorPrimary,
             borderRadius: const BorderRadius.only(
-              bottomRight: Radius.circular(24),
-              bottomLeft: Radius.circular(24),
+              bottomRight: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -78,7 +74,8 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                     '合計',
                     style: TextStyle(
                       fontSize: 25.0,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -92,7 +89,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                     style: const TextStyle(
                       fontSize: 35.0,
                       fontWeight: FontWeight.w700,
-                      color: kColorRed,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -105,7 +102,8 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                     '円',
                     style: TextStyle(
                       fontSize: 25.0,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -116,13 +114,15 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
           Expanded(child: SingleChildScrollView(
             child:Column(
               children: [
-                Row(
-                    children:const [
-                      //Expanded(child: Text('', style: TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
-                      Expanded(child: Text('値段', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
-                      Expanded(child: Text('個数', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
-                      Expanded(child: Text('メモ', style:  TextStyle(height: 3.0, fontSize: 15.2, fontWeight: FontWeight.bold,))),
-                    ]
+                Container(
+                  margin: const EdgeInsets.only(left: 60,),
+                  child: Row(
+                      children:const [
+                        Expanded(child: Text('商品名', style: TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
+                        Expanded(child: Text('値段', style:  TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
+                        Expanded(child: Text('個数', style:  TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
+                      ]
+                  ),
                 ),
                 ListView.builder(
                   shrinkWrap: true,
@@ -132,24 +132,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                   itemBuilder: (context, index) {
                     // インデックスに対応する商品を取得する
                     var item = _store.finalByIndex(index);
-                    //合計金額の計算
                     return Slidable(
-                      // 右方向にリストアイテムをスライドした場合のアクション
-                      startActionPane: ActionPane(
-                        motion: const ScrollMotion(),
-                        extentRatio: 0.25,
-                        children: [
-                          SlidableAction(
-                            onPressed: (context) {
-                              // Todo編集画面に遷移する
-                              _pushRegularPriceInputPage(item);
-                            },
-                            backgroundColor: kColorGreen,
-                            icon: Icons.edit,
-                            label: '編集',
-                          ),
-                        ],
-                      ),
                       // 左方向にリストアイテムをスライドした場合のアクション
                       endActionPane: ActionPane(
                         motion: const ScrollMotion(),
@@ -170,6 +153,10 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                         ],
                       ),
                       child: Container(
+                        margin: const EdgeInsets.only(
+                          left: 20,
+                          right: 25,
+                        ),
                         decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Colors.grey),
@@ -178,27 +165,49 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                         child: ListTile(
                           title: Row(
                             children: <Widget>[
-                              Expanded(child: Text(item.price+" 円")),
-                              Expanded(child: Text(item.number)),
-                              Expanded(child: Text(item.memo)),
+                              Expanded(child: Text(item.product,style: const TextStyle(fontSize: 15,))),
+                              Expanded(child: Text("　 "+item.price+" 円",style: const TextStyle(height: 3.0, fontSize: 15,))),
+                              Expanded(child: Text("　　  "+item.number,style: const TextStyle(height: 3.0, fontSize: 15,))),
                             ],
                           ),
+                          onTap: (){
+                            _pushRegularPriceInputPage(item);
+                          },
                         ),
                       ),
                     );
                   },
-
+                ),
+                const SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20,right: 25),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child:ElevatedButton(
+                      onPressed: () {
+                        _pushRegularPriceInputPage();
+                      },
+                      child:const Icon(Icons.add_rounded ),
+                      style: ElevatedButton.styleFrom(
+                        primary: kColorPrimary,
+                        elevation: 1,
+                        shape: const StadiumBorder(),
+                      ),
+                    ),
+                  ),
                 ),
                 ///割引商品テーブル
                 const SizedBox(height: 10),
-                Row(
-                    children: const [
-                      Expanded(child: Text('商品名', style: TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
-                      Expanded(child: Text('値段', style:  TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
-                      Expanded(child: Text('割引・％OFF', style: TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
-                      Expanded(child: Text('個数', style:  TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
-                      //Expanded(child: Text('メモ', style:  TextStyle(height: 3.0, fontSize: 10, fontWeight: FontWeight.bold,))),
-                    ]
+                Container(
+                  margin: const EdgeInsets.only(left:35,),
+                  child: Row(
+                      children: const [
+                        Expanded(child: Text('商品名', style: TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
+                        Expanded(child: Text('値段', style:  TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
+                        Expanded(child: Text('割引・％OFF', style: TextStyle(height: 3.0, fontSize: 14, fontWeight: FontWeight.bold,))),
+                        Expanded(child: Text('    個数', style:  TextStyle(height: 3.0, fontSize: 15, fontWeight: FontWeight.bold,))),
+                      ]
+                  ),
                 ),
                 ListView.builder(
                   shrinkWrap: true,
@@ -208,22 +217,6 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                     // インデックスに対応する商品を取得する
                     var item = _discountStore.finalByIndex(index);
                     return Slidable(
-                      // 右方向にリストアイテムをスライドした場合のアクション
-                      startActionPane: ActionPane(
-                        motion: const ScrollMotion(),
-                        extentRatio: 0.25,
-                        children: [
-                          SlidableAction(
-                            onPressed: (context) {
-                              // Todo編集画面に遷移する
-                              _pushDiscountPriceInputPage(item);
-                            },
-                            backgroundColor: kColorGreen,
-                            icon: Icons.edit,
-                            label: '編集',
-                          ),
-                        ],
-                      ),
                       // 左方向にリストアイテムをスライドした場合のアクション
                       endActionPane: ActionPane(
                         motion: const ScrollMotion(),
@@ -244,6 +237,10 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                         ],
                       ),
                       child: Container(
+                        margin: const EdgeInsets.only(
+                          left: 20,
+                          right: 25,
+                        ),
                         decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Colors.grey),
@@ -255,27 +252,34 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                               Expanded(child: Text(item.discountProduct)),
                               Expanded(child: Text(item.discountPrice+" 円")),
                               Expanded(child: Text(item.discountNumber+item.discountMethod)),
-                              //Expanded(child: Text(item.discountMethod)),
-                              Expanded(child: Text(item.discountProductNumber)),
-                              //Expanded(child: Text(item.discountMemo)),
+                              Expanded(child: Text("　　"+item.discountProductNumber)),
                             ],
                           ),
+                          onTap: (){
+                            _pushDiscountPriceInputPage(item);
+                          },
+                          onLongPress: () => {},
                         ),
                       ),
                     );
                   },
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    _pushDiscountPriceInputPage();
-                  },
-                  child: const Text(
-                    'リスト追加',
-                    style: TextStyle(color: kColorText),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: kColorPrimary,
-                    elevation: 1,
+                const SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20,right: 25),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child:ElevatedButton(
+                      onPressed: () {
+                        _pushDiscountPriceInputPage();
+                      },
+                      child:const Icon(Icons.add_rounded ),
+                      style: ElevatedButton.styleFrom(
+                        primary: kColorPrimary,
+                        elevation: 1,
+                        shape: const StadiumBorder(),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -284,13 +288,6 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
           ),
         ],
       ),
-
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: kColorGreen,
-        onPressed: _pushRegularPriceInputPage,
-        child: const Icon(Icons.add),
-      ),
-
     );
   }
 

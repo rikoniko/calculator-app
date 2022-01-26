@@ -28,7 +28,8 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
 
   /// 画面項目：更新日時
   late String _updateDate;
-
+  //商品名
+  late String _product;
   //値段
   late String _price;
   //個数
@@ -40,7 +41,7 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
   void initState() {
     super.initState();
     var regularPrice = widget.regularPrice;
-
+    _product=regularPrice?.product ?? "";
     _price = regularPrice?.price ?? "";
     _number=regularPrice?.number ?? "";
     _memo = regularPrice?.memo ?? "";
@@ -64,6 +65,28 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
         child:SingleChildScrollView(
           child:Column(
             children:<Widget>[
+              const SizedBox(height: 20),
+              TextField(
+                autofocus: true,
+                decoration: const InputDecoration(
+                  labelText: "商品名",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: kColorText,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: kColorText,
+                    ),
+                  ),
+                ),
+                // TextEditingControllerを使用することで、いちいちsetStateしなくても画面を更新してくれる
+                controller: TextEditingController(text: _product),
+                onChanged: (String value) {
+                  _product = value;
+                },
+              ),
               const SizedBox(height: 20),
               TextField(
                 keyboardType: TextInputType.number,
@@ -142,10 +165,10 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
                   onPressed: () {
                     if (_isCreateRegularPrice) {
                       // Todoを追加する
-                      _store.add(_price, _number,_memo);
+                      _store.add(_product,_price, _number,_memo);
                     } else {
                       // Todoを更新する
-                      _store.update(widget.regularPrice!,_price, _number,_memo);
+                      _store.update(widget.regularPrice!,_product,_price, _number,_memo);
                     }
                     // Todoリスト画面に戻る
                     Navigator.of(context).pop();
