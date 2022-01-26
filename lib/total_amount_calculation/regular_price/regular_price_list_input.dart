@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'regular_price_list_store.dart';
 import '../total_amount_calculation.dart';
 
@@ -37,6 +40,27 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
   //メモ
   late String _memo;
 
+  /// オートコンプリート機能
+  bool isLoading=false;
+  late List<String> autoCompleteData;
+
+  Future fetchAutoCompleteData() async{
+    // jsonファイルが読み込まれているかを確認する
+    setState(() {
+      isLoading=true;
+    });
+    // jsonファイルを読むこむ
+    final String stringData =await rootBundle.loadString("assets/data/product.json");
+    // jsonデータをデコードしてDartで扱える型に変換する
+    final List<dynamic> json=jsonDecode(stringData);
+    final List<String> jsonStringData=json.cast<String>();
+
+    setState(() {
+      isLoading=false;
+      autoCompleteData=jsonStringData;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -48,11 +72,14 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
     _createDate = regularPrice?.createDate ?? "";
     _updateDate = regularPrice?.updateDate ?? "";
     _isCreateRegularPrice = regularPrice == null;
+    //オートコンプリートのデータを呼び出す
+    fetchAutoCompleteData();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) =>GestureDetector(
+    onTap: ()=>FocusScope.of(context).unfocus(),
+    child: Scaffold(
       appBar: AppBar(
         title:Text(
           _isCreateRegularPrice ? '商品追加' : '商品詳細',
@@ -65,6 +92,7 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
         child:SingleChildScrollView(
           child:Column(
             children:<Widget>[
+              ProductNameArea(),
               const SizedBox(height: 20),
               TextField(
                 autofocus: true,
@@ -203,6 +231,26 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
           ),
         ),
       ),
+    ),
+  );
+
+  Widget ProductNameArea() {
+    return isLoading? Center(child: CircularProgressIndicator(),):Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Autocomplete(
+              optionsBuilder: (TextEditingValue textEditingValue){
+                if(textEditingValue.text.isEmpty){
+                  return const Iterable<String>.empty();
+                }else{
+                  return autoCompleteData.where((word) => word.contains(textEditingValue.text));
+                }
+          })
+        ],
+
+      ),
     );
   }
+
 }

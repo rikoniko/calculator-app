@@ -63,8 +63,9 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) =>GestureDetector(
+    onTap: ()=>FocusScope.of(context).unfocus(),
+    child: Scaffold(
       appBar: AppBar(
         title:Text(
           _isCreateDiscountPrice ? '商品追加' : '商品詳細',
@@ -246,8 +247,8 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 
   DropdownMenuItem<String> buildMenuItem(String method)=> DropdownMenuItem(
         value: method,
