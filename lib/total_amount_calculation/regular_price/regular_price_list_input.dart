@@ -92,29 +92,8 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
         child:SingleChildScrollView(
           child:Column(
             children:<Widget>[
+              ///商品名
               ProductNameArea(),
-              const SizedBox(height: 20),
-              TextField(
-                autofocus: true,
-                decoration: const InputDecoration(
-                  labelText: "商品名",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                ),
-                // TextEditingControllerを使用することで、いちいちsetStateしなくても画面を更新してくれる
-                controller: TextEditingController(text: _product),
-                onChanged: (String value) {
-                  _product = value;
-                },
-              ),
               const SizedBox(height: 20),
               TextField(
                 keyboardType: TextInputType.number,
@@ -235,18 +214,48 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
   );
 
   Widget ProductNameArea() {
-    return isLoading? Center(child: CircularProgressIndicator(),):Padding(
+    return isLoading? const Center(child: CircularProgressIndicator(),):Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
           Autocomplete(
-              optionsBuilder: (TextEditingValue textEditingValue){
-                if(textEditingValue.text.isEmpty){
-                  return const Iterable<String>.empty();
-                }else{
-                  return autoCompleteData.where((word) => word.contains(textEditingValue.text));
-                }
-          })
+            optionsBuilder: (TextEditingValue textEditingValue){
+              TextEditingController(text: _product);
+              if(textEditingValue.text.isEmpty){
+                return const Iterable<String>.empty();
+              }else{
+                return autoCompleteData.where((word) => word.contains(textEditingValue.text));
+              }
+            },
+            onSelected: (String selectedString){
+              _product=selectedString;
+            },
+            fieldViewBuilder: (context,textEditingController,focusNode,onEditingComplete){
+                return TextField(
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    labelText: "商品名",
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: kColorText,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: kColorText,
+                      ),
+                    ),
+                  ),
+                  focusNode: focusNode,
+                  onEditingComplete: onEditingComplete,
+                  controller: textEditingController..text=_product,
+                  //controller: TextEditingController(text: _product),
+                  onChanged: (String value) {
+                    _product = value;
+                  },
+                );
+            },
+          )
         ],
 
       ),
