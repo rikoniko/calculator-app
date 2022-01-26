@@ -90,6 +90,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                       fontSize: 35.0,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
+                      letterSpacing: 1.5,
                     ),
                   ),
                 ),
@@ -114,6 +115,11 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
           Expanded(child: SingleChildScrollView(
             child:Column(
               children: [
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(left: 25),
+                  child: const Text('定価の商品', style: TextStyle(color:Colors.grey,fontSize: 18, fontWeight: FontWeight.bold,)),
+                ),
                 Container(
                   margin: const EdgeInsets.only(left: 60,),
                   child: Row(
@@ -199,6 +205,11 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                 ///割引商品テーブル
                 const SizedBox(height: 10),
                 Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(left: 25),
+                  child: const Text('割引の商品', style: TextStyle(color:Colors.grey,fontSize: 18, fontWeight: FontWeight.bold,)),
+                ),
+                Container(
                   margin: const EdgeInsets.only(left:35,),
                   child: Row(
                       children: const [
@@ -251,7 +262,7 @@ class _TotalAmountCalculationState extends State<TotalAmountCalculation> {
                             children: <Widget>[
                               Expanded(child: Text(item.discountProduct)),
                               Expanded(child: Text(item.discountPrice+" 円")),
-                              Expanded(child: Text(item.discountNumber+item.discountMethod)),
+                              Expanded(child: Text(item.discountNumber+item.discountMethod,style:const TextStyle(color: kColorRed))),
                               Expanded(child: Text("　　"+item.discountProductNumber)),
                             ],
                           ),
