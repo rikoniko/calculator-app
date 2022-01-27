@@ -5,7 +5,7 @@
 （買い物リスト・電卓・単価計算はまだ完成していません。）
 
 ## Demo
-
+お会計画面のデモ動画です。
 
 https://user-images.githubusercontent.com/78467513/151404212-dc36f5ac-5833-401e-bd46-9dc0ce73e084.mov
 
