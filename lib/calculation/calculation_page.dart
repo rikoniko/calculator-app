@@ -4,9 +4,9 @@ import 'calculation.dart';
 
 const kColorPrimary = Color(0xFFFFDC80);
 const kColorText = Color(0xFF182435);
-const kColorBackground = Color(0xFFF3F3F3);
-const kColorRed = Color(0xFF182435);
-const kColorGreen = Color(0xFF56C293);
+const kColorBackground = Color(0xFFFFF9EA);
+const kColorRed = Color(0xFFE36470);
+const kColorGreen = Color(0xFF309398);
 const kColorGrey = Color(0xFFF8F5EA);
 
 void main() {

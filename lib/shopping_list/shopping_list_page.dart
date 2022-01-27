@@ -3,9 +3,9 @@ import 'shopping_list_add_page.dart';
 
 const kColorPrimary = Color(0xFFFFDC80);
 const kColorText = Color(0xFF182435);
-const kColorBackground = Color(0xFFF3F3F3);
-const kColorRed = Color(0xFFE86D6C);
-const kColorGreen = Color(0xFF56C293);
+const kColorBackground = Color(0xFFFFF9EA);
+const kColorRed = Color(0xFFE36470);
+const kColorGreen = Color(0xFF309398);
 const kColorGrey = Color(0xFFF8F5EA);
 
 void main() {
@@ -44,7 +44,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           },
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: kColorGreen,
+          backgroundColor: kColorPrimary,
           onPressed: () async{
             final newListText=await Navigator.of(context).push(
               MaterialPageRoute(builder: (context) {
@@ -57,7 +57,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
               });
             }
           },
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.add,color: kColorText,),
 
         )
     );
