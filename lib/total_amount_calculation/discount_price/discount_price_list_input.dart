@@ -46,10 +46,10 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
   //メモ
   late String _discountMemo;
   //商品の個数表示用
-  late int count;
+  int count=0;
 
   final methodItems=['割引','%OFF'];
-  String? methodValue;
+  String? methodValue='割引';
 
   /// オートコンプリート機能
   bool isLoading=false;
@@ -75,6 +75,7 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
   @override
   void initState() {
     super.initState();
+    setState(() {});
     var discountPriceList = widget.discountPriceList;
     _discountProduct = discountPriceList?.discountProduct ?? "";
     _discountPrice = discountPriceList?.discountPrice ?? "";
@@ -109,156 +110,48 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
             children:<Widget>[
               ///商品名
               DiscountProductNameArea(),
-              const SizedBox(height: 20),
-              ///値段
-              TextField(
-                keyboardType: TextInputType.number,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  labelText: "値段",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    ///値段
+                    Expanded(flex:3,child: DiscountProductPriceArea()),
+                    const SizedBox(width: 15,),
+                    const Expanded(flex:2,child: Text("円の", style: TextStyle(color:kColorText,fontSize: 18,))),
+                    ///何％OFF・割引
+                    Expanded(flex:2,child: DiscountNumberArea()),
+                    const SizedBox(width: 15,),
+                    ///％OFFor割引
+                    Expanded(flex:3,child: DiscountMethodArea()),
+                  ],
                 ),
-                // TextEditingControllerを使用することで、いちいちsetStateしなくても画面を更新してくれる
-                controller: TextEditingController(text: _discountPrice),
-                onChanged: (String value) {
-                  _discountPrice = value;
-                },
-              ),
-              ///何％引・割引
-              TextField(
-                keyboardType: TextInputType.number,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                ),
-                controller: TextEditingController(text: _discountNumber),
-                onChanged: (String value) {
-                  _discountNumber = value;
-                },
-              ),
-              ///％OFFor割引
-              DropdownButton(
-                value: methodValue,
-                items: methodItems.map(buildMenuItem).toList(),
-                onChanged: (value){
-                  setState(() {
-                    methodValue=value as String?;
-                    _discountMethod=value!;
-                  });
-                },
               ),
               ///個数
               ProductNumberArea(context, changeValue: (isIncrement){
-                if(isIncrement){
-                  count++;
-                  _discountProductNumber=count.toString();
-                  setState(() {});
-                }else{
-                  count--;
-                  _discountProductNumber=count.toString();
-                  setState(() {});
-                }
+                WidgetsBinding.instance!.addPostFrameCallback((_){
+                  if(isIncrement){
+                    count++;
+                    _discountProductNumber=count.toString();
+                    setState(() {});
+                  }else{
+                    count--;
+                    _discountProductNumber=count.toString();
+                    setState(() {});
+                  }
+                });
               }),
-              const SizedBox(height: 20),
-              TextField(
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                minLines: 3,
-                decoration: const InputDecoration(
-                  labelText: "メモ",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                ),
-                controller: TextEditingController(text: _discountMemo),
-                onChanged: (String value) {
-                  _discountMemo = value;
-                },
-              ),
-              const SizedBox(height: 20),
-              // 追加/更新ボタン
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_isCreateDiscountPrice) {
-                      // Todoを追加する
-                      _store.add(_discountProduct,_discountPrice,_discountNumber,_discountMethod, _discountProductNumber,_discountMemo);
-                    } else {
-                      // Todoを更新する
-                      _store.update(widget.discountPriceList!,_discountProduct,_discountPrice,_discountNumber,_discountMethod, _discountProductNumber,_discountMemo);
-                    }
-                    // Todoリスト画面に戻る
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    _isCreateDiscountPrice ? '追加' : '更新',
-                    style: const TextStyle(color: kColorText),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: kColorPrimary,
-                    elevation: 1,
-                    fixedSize: const Size(200, 50),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              //キャンセルボタン
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {
-                    // Todoリスト画面に戻る
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text(
-                    "キャンセル",
-                    style: TextStyle(color: kColorText),
-                  ),
-                ),
-              ),
+              /// メモ
+              DiscountProductMemo(),
+              /// 追加/更新ボタン
+              AddButtonArea(),
+              /// キャンセルボタン
+              CancellButtonArea(),
             ],
           ),
         ),
       ),
     ),
   );
-
-  DropdownMenuItem<String> buildMenuItem(String method)=> DropdownMenuItem(
-        value: method,
-      child: Text(
-        method,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
-      ),
-    );
 
   Widget DiscountProductNameArea() {
     return isLoading? const Center(child: CircularProgressIndicator(),):Padding(
@@ -309,73 +202,77 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
     );
   }
 
-  Widget ProductNumberArea(BuildContext context, {double width = 94, double height = 32, required void Function(bool isIncrement) changeValue}) {
-    return SizedBox(
-      width: width,
-      height: height,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: const Color(0xffeeeeee),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-                flex: 1,
-                child: Stack(
-                  children: [
-                    ElevatedButton(
-                      child: null,
-                      style: ElevatedButton.styleFrom(
-                        shadowColor: Colors.transparent,
-                        primary: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0),
+  Widget ProductNumberArea(BuildContext context, {double width = 150, double height = 40, required void Function(bool isIncrement) changeValue}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 150),
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: Container(
+          alignment: Alignment.centerRight,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: kColorPrimary,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                  flex: 1,
+                  child: Stack(
+                    children: [
+                      ElevatedButton(
+                        child: null,
+                        style: ElevatedButton.styleFrom(
+                          shadowColor: Colors.transparent,
+                          primary: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
                         ),
+                        onPressed: () {
+                          changeValue(false);
+                        },
                       ),
-                      onPressed: () {
-                        changeValue(false);
-                      },
-                    ),
-                    const IgnorePointer(
-                      ignoring: true,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Icon(Icons.remove, size: 24, color: Colors.black),
-                      ),
-                    )
-                  ],
-                )
-            ),
-            Text("$count"),
-            Expanded(
-                flex: 1,
-                child: Stack(
-                  children: [
-                    ElevatedButton(
-                      child: null,
-                      style: ElevatedButton.styleFrom(
-                        shadowColor: Colors.transparent,
-                        primary: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0),
+                      const IgnorePointer(
+                        ignoring: true,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Icon(Icons.remove, size: 24, color: kColorText),
                         ),
+                      )
+                    ],
+                  )
+              ),
+              Text("$count",style: const TextStyle(color:kColorText,fontSize: 17, fontWeight: FontWeight.bold,)),
+              Expanded(
+                  flex: 1,
+                  child: Stack(
+                    children: [
+                      ElevatedButton(
+                        child: null,
+                        style: ElevatedButton.styleFrom(
+                          shadowColor: Colors.transparent,
+                          primary: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                        ),
+                        onPressed: () {
+                          changeValue(true);
+                        },
                       ),
-                      onPressed: () {
-                        changeValue(true);
-                      },
-                    ),
-                    const IgnorePointer(
-                      ignoring: true,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Icon(Icons.add, size: 24, color: Colors.black),
-                      ),
-                    )
-                  ],
-                )
-            ),
-          ],
+                      const IgnorePointer(
+                        ignoring: true,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Icon(Icons.add, size: 24, color: kColorText),
+                        ),
+                      )
+                    ],
+                  )
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -383,10 +280,167 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
 
   void InitProductNumber() {
     if(_discountProductNumber==""){
-      count=0;
+      count=1;
     }else{
       count=int.parse(_discountProductNumber);
     }
+  }
+
+  Widget DiscountProductPriceArea() {
+    return TextField(
+      keyboardType: TextInputType.number,
+      //autofocus: true,
+      decoration: const InputDecoration(
+        labelText: "値段",
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: kColorText,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: kColorText,
+          ),
+        ),
+      ),
+      controller: TextEditingController(text: _discountPrice),
+      onChanged: (String value) {
+        _discountPrice = value;
+      },
+    );
+  }
+
+  Widget DiscountNumberArea() {
+    return TextField(
+      keyboardType: TextInputType.number,
+      //autofocus: true,
+      decoration: const InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: kColorText,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: kColorText,
+          ),
+        ),
+      ),
+      controller: TextEditingController(text: _discountNumber),
+      onChanged: (String value) {
+        _discountNumber = value;
+      },
+    );
+  }
+
+  Widget DiscountMethodArea() {
+    return DropdownButton(
+      value: methodValue,
+      items: methodItems.map(buildMenuItem).toList(),
+      onChanged: (value){
+        setState(() {
+          methodValue=value as String?;
+          _discountMethod=value!;
+        });
+      },
+    );
+  }
+
+  DropdownMenuItem<String> buildMenuItem(String method)=> DropdownMenuItem(
+    value: method,
+    child: Text(
+      method,
+      style: const TextStyle(
+        //fontWeight: FontWeight.bold,
+        //fontSize: 20,
+      ),
+    ),
+  );
+
+  Widget DiscountProductMemo() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: TextField(
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        minLines: 3,
+        decoration: const InputDecoration(
+          labelText: "メモ",
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: kColorText,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: kColorText,
+            ),
+          ),
+        ),
+        controller: TextEditingController(text: _discountMemo),
+        onChanged: (String value) {
+          _discountMemo = value;
+        },
+      ),
+    );
+  }
+
+  Widget AddButtonArea() {
+    return  Padding(
+      padding: EdgeInsets.all(16),
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: () {
+            if (_isCreateDiscountPrice) {
+              // Todoを追加する
+              _store.add(_discountProduct,_discountPrice,_discountNumber,_discountMethod, _discountProductNumber,_discountMemo);
+            } else {
+              // Todoを更新する
+              _store.update(widget.discountPriceList!,_discountProduct,_discountPrice,_discountNumber,_discountMethod, _discountProductNumber,_discountMemo);
+            }
+            // Todoリスト画面に戻る
+            WidgetsBinding.instance!.addPostFrameCallback((_) {
+              Navigator.of(context).pop();
+            });
+          },
+          child: Text(
+            _isCreateDiscountPrice ? '追加' : '更新',
+            style: const TextStyle(color: kColorText,fontSize: 17,),
+          ),
+          style: ElevatedButton.styleFrom(
+            primary: kColorPrimary,
+            elevation: 0.5,
+            fixedSize: const Size(200, 45),
+            shape: const StadiumBorder(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget CancellButtonArea() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16,right: 16,),
+      child: SizedBox(
+        width: double.infinity,
+        child: OutlinedButton(
+          onPressed: () {
+            // Todoリスト画面に戻る
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            "キャンセル",
+            style: TextStyle(color: kColorText,fontSize: 16),
+          ),
+          style: OutlinedButton.styleFrom(
+            primary: kColorPrimary,
+            fixedSize: const Size(100, 45),
+            shape: const StadiumBorder(),
+          ),
+        ),
+      ),
+    );
   }
 
 }

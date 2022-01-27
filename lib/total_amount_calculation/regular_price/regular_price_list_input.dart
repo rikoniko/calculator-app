@@ -40,10 +40,11 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
   //メモ
   late String _memo;
   //商品の個数表示用
-  late int count;
+  int count=0;
   /// オートコンプリート機能
   bool isLoading=false;
   late List<String> autoCompleteData;
+
 
   Future fetchAutoCompleteData() async{
     // jsonファイルが読み込まれているかを確認する
@@ -55,7 +56,6 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
     // jsonデータをデコードしてDartで扱える型に変換する
     final List<dynamic> json=jsonDecode(stringData);
     final List<String> jsonStringData=json.cast<String>();
-
     setState(() {
       isLoading=false;
       autoCompleteData=jsonStringData;
@@ -65,6 +65,7 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
   @override
   void initState() {
     super.initState();
+    setState(() {});
     var regularPrice = widget.regularPrice;
     _product=regularPrice?.product ?? "";
     _price = regularPrice?.price ?? "";
@@ -97,109 +98,35 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
             children:<Widget>[
               ///商品名
               ProductNameArea(),
-              const SizedBox(height: 20),
-              ///値段
-              TextField(
-                keyboardType: TextInputType.number,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  labelText: "値段",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                ),
-                // TextEditingControllerを使用することで、いちいちsetStateしなくても画面を更新してくれる
-                controller: TextEditingController(text: _price),
-                onChanged: (String value) {
-                  _price = value;
-                },
-              ),
-              const SizedBox(height: 20),
-              ///個数
-              ProductNumberArea(context, changeValue: (isIncrement){
-                if(isIncrement){
-                  count++;
-                  _number=count.toString();
-                  setState(() {});
-                }else{
-                  count--;
-                  _number=count.toString();
-                  setState(() {});
-                }
-              }),
-              const SizedBox(height: 20),
-              TextField(
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                minLines: 3,
-                decoration: const InputDecoration(
-                  labelText: "メモ",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                ),
-                // TextEditingControllerを使用することで、いちいちsetStateしなくても画面を更新してくれる
-                controller: TextEditingController(text: _memo),
-                onChanged: (String value) {
-                  _memo = value;
-                },
-              ),
-              const SizedBox(height: 20),
-              // 追加/更新ボタン
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_isCreateRegularPrice) {
-                      // Todoを追加する
-                      _store.add(_product,_price, _number,_memo);
-                    } else {
-                      // Todoを更新する
-                      _store.update(widget.regularPrice!,_product,_price, _number,_memo);
-                    }
-                    // Todoリスト画面に戻る
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    _isCreateRegularPrice ? '追加' : '更新',
-                    style: const TextStyle(color: kColorText),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: kColorPrimary,
-                    elevation: 1,
-                    fixedSize: const Size(200, 50),
-                  ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    ///値段
+                    Expanded(flex:2,child: ProductPriceArea(),),
+                    const SizedBox(width: 20,),
+                    const Expanded(flex:1,child: Text("円", style: TextStyle(color:kColorText,fontSize: 18,))),
+                    ///個数
+                    Expanded(flex:2,child: ProductNumberArea(context, changeValue: (isIncrement){
+                      if(isIncrement){
+                        count++;
+                        _number=count.toString();
+                        setState(() {});
+                      }else{
+                        count--;
+                        _number=count.toString();
+                        setState(() {});
+                      }
+                    }),),
+                  ],
                 ),
               ),
-              const SizedBox(height: 10),
-              //キャンセルボタン
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {
-                    // Todoリスト画面に戻る
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text(
-                    "キャンセル",
-                    style: TextStyle(color: kColorText),
-                  ),
-                ),
-              ),
+              ///メモ
+              MemoArea(),
+              /// 追加ボタン
+              AddButtonArea(),
+              /// キャンセルボタン
+              CancellButtonArea(),
             ],
           ),
         ),
@@ -256,14 +183,38 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
     );
   }
 
-  Widget ProductNumberArea(BuildContext context, {double width = 94, double height = 32, required void Function(bool isIncrement) changeValue}) {
+  Widget ProductPriceArea() {
+    return TextField(
+      keyboardType: TextInputType.number,
+      //autofocus: true,
+      decoration: const InputDecoration(
+        labelText: "値段",
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: kColorText,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: kColorText,
+          ),
+        ),
+      ),
+      controller: TextEditingController(text: _price),
+      onChanged: (String value) {
+        _price = value;
+      },
+    );
+  }
+
+  Widget ProductNumberArea(BuildContext context, {double width = 80, double height = 40, required void Function(bool isIncrement) changeValue}) {
     return SizedBox(
       width: width,
       height: height,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: const Color(0xffeeeeee),
+          color: kColorPrimary,
         ),
         child: Row(
           children: [
@@ -294,7 +245,7 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
                   ],
                 )
             ),
-            Text("$count"),
+            Text("$count",style: const TextStyle(color:kColorText,fontSize: 17, fontWeight: FontWeight.bold,)),
             Expanded(
                 flex: 1,
                 child: Stack(
@@ -328,12 +279,97 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
     );
   }
 
+  Widget MemoArea() {
+    return Padding(
+      padding: EdgeInsets.all(16),
+      child: TextField(
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        minLines: 3,
+        decoration: const InputDecoration(
+          labelText: "メモ",
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: kColorText,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: kColorText,
+            ),
+          ),
+        ),
+        controller: TextEditingController(text: _memo),
+        onChanged: (String value) {
+          _memo = value;
+        },
+      ),
+    );
+  }
+
+  Widget AddButtonArea() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: () {
+            if (_isCreateRegularPrice) {
+              // Todoを追加する
+              _store.add(_product,_price, _number,_memo);
+            } else {
+              // Todoを更新する
+              _store.update(widget.regularPrice!,_product,_price, _number,_memo);
+            }
+            // Todoリスト画面に戻る
+            Navigator.of(context).pop();
+          },
+          child: Text(
+            _isCreateRegularPrice ? '追加' : '更新',
+            style: const TextStyle(color: kColorText,fontSize: 17,),
+          ),
+          style: ElevatedButton.styleFrom(
+            primary: kColorPrimary,
+            elevation: 0.5,
+            fixedSize: const Size(100, 45),
+            shape: const StadiumBorder(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget CancellButtonArea() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16,right: 16,),
+      child: SizedBox(
+        width: double.infinity,
+        child: OutlinedButton(
+          onPressed: () {
+            // Todoリスト画面に戻る
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            "キャンセル",
+            style: TextStyle(color: kColorText,fontSize: 16),
+          ),
+          style: OutlinedButton.styleFrom(
+            primary: kColorPrimary,
+            fixedSize: const Size(100, 45),
+            shape: const StadiumBorder(),
+          ),
+        ),
+      ),
+    );
+  }
+
   void InitProductNumber() {
     if(_number==""){
-      count=0;
+      count=1;
     }else{
       count=int.parse(_number);
     }
   }
+
 
 }
