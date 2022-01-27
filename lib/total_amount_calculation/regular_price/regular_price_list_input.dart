@@ -39,7 +39,8 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
   late String _number;
   //メモ
   late String _memo;
-
+  //商品の個数表示用
+  late int count;
   /// オートコンプリート機能
   bool isLoading=false;
   late List<String> autoCompleteData;
@@ -74,6 +75,8 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
     _isCreateRegularPrice = regularPrice == null;
     //オートコンプリートのデータを呼び出す
     fetchAutoCompleteData();
+    //商品の個数を初期化する
+    InitProductNumber();
   }
 
   @override
@@ -95,6 +98,7 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
               ///商品名
               ProductNameArea(),
               const SizedBox(height: 20),
+              ///値段
               TextField(
                 keyboardType: TextInputType.number,
                 autofocus: true,
@@ -118,28 +122,18 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
                 },
               ),
               const SizedBox(height: 20),
-              TextField(
-                keyboardType: TextInputType.number,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  labelText: "個数",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                ),
-                // TextEditingControllerを使用することで、いちいちsetStateしなくても画面を更新してくれる
-                controller: TextEditingController(text: _number),
-                onChanged: (String value) {
-                  _number = value;
-                },
-              ),
+              ///個数
+              ProductNumberArea(context, changeValue: (isIncrement){
+                if(isIncrement){
+                  count++;
+                  _number=count.toString();
+                  setState(() {});
+                }else{
+                  count--;
+                  _number=count.toString();
+                  setState(() {});
+                }
+              }),
               const SizedBox(height: 20),
               TextField(
                 keyboardType: TextInputType.multiline,
@@ -260,6 +254,86 @@ class _RegularPriceInputPageState extends State<RegularPriceInputPage> {
 
       ),
     );
+  }
+
+  Widget ProductNumberArea(BuildContext context, {double width = 94, double height = 32, required void Function(bool isIncrement) changeValue}) {
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: const Color(0xffeeeeee),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: Stack(
+                  children: [
+                    ElevatedButton(
+                      child: null,
+                      style: ElevatedButton.styleFrom(
+                        shadowColor: Colors.transparent,
+                        primary: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                      ),
+                      onPressed: () {
+                        changeValue(false);
+                      },
+                    ),
+                    const IgnorePointer(
+                      ignoring: true,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Icon(Icons.remove, size: 24, color: Colors.black),
+                      ),
+                    )
+                  ],
+                )
+            ),
+            Text("$count"),
+            Expanded(
+                flex: 1,
+                child: Stack(
+                  children: [
+                    ElevatedButton(
+                      child: null,
+                      style: ElevatedButton.styleFrom(
+                        shadowColor: Colors.transparent,
+                        primary: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                      ),
+                      onPressed: () {
+                        changeValue(true);
+                      },
+                    ),
+                    const IgnorePointer(
+                      ignoring: true,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Icon(Icons.add, size: 24, color: Colors.black),
+                      ),
+                    )
+                  ],
+                )
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void InitProductNumber() {
+    if(_number==""){
+      count=0;
+    }else{
+      count=int.parse(_number);
+    }
   }
 
 }

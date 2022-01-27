@@ -45,6 +45,8 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
   late String _discountProductNumber;
   //メモ
   late String _discountMemo;
+  //商品の個数表示用
+  late int count;
 
   final methodItems=['割引','%OFF'];
   String? methodValue;
@@ -85,6 +87,8 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
     _isCreateDiscountPrice = discountPriceList == null;
     //オートコンプリートのデータを呼び出す
     fetchAutoCompleteData();
+    //商品の個数を初期化する
+    InitProductNumber();
   }
 
   @override
@@ -162,27 +166,17 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
                 },
               ),
               ///個数
-              TextField(
-                keyboardType: TextInputType.number,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  labelText: "個数",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: kColorText,
-                    ),
-                  ),
-                ),
-                controller: TextEditingController(text: _discountProductNumber),
-                onChanged: (String value) {
-                  _discountProductNumber = value;
-                },
-              ),
+              ProductNumberArea(context, changeValue: (isIncrement){
+                if(isIncrement){
+                  count++;
+                  _discountProductNumber=count.toString();
+                  setState(() {});
+                }else{
+                  count--;
+                  _discountProductNumber=count.toString();
+                  setState(() {});
+                }
+              }),
               const SizedBox(height: 20),
               TextField(
                 keyboardType: TextInputType.multiline,
@@ -313,6 +307,86 @@ class _DiscountPriceInputPageState extends State<DiscountPriceInputPage> {
 
       ),
     );
+  }
+
+  Widget ProductNumberArea(BuildContext context, {double width = 94, double height = 32, required void Function(bool isIncrement) changeValue}) {
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: const Color(0xffeeeeee),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: Stack(
+                  children: [
+                    ElevatedButton(
+                      child: null,
+                      style: ElevatedButton.styleFrom(
+                        shadowColor: Colors.transparent,
+                        primary: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                      ),
+                      onPressed: () {
+                        changeValue(false);
+                      },
+                    ),
+                    const IgnorePointer(
+                      ignoring: true,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Icon(Icons.remove, size: 24, color: Colors.black),
+                      ),
+                    )
+                  ],
+                )
+            ),
+            Text("$count"),
+            Expanded(
+                flex: 1,
+                child: Stack(
+                  children: [
+                    ElevatedButton(
+                      child: null,
+                      style: ElevatedButton.styleFrom(
+                        shadowColor: Colors.transparent,
+                        primary: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                      ),
+                      onPressed: () {
+                        changeValue(true);
+                      },
+                    ),
+                    const IgnorePointer(
+                      ignoring: true,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Icon(Icons.add, size: 24, color: Colors.black),
+                      ),
+                    )
+                  ],
+                )
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void InitProductNumber() {
+    if(_discountProductNumber==""){
+      count=0;
+    }else{
+      count=int.parse(_discountProductNumber);
+    }
   }
 
 }
