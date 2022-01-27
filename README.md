@@ -1,19 +1,39 @@
 # calculator_app
 
-A new Flutter project.
+お買い物中に簡単にお会計の計算ができる計算アプリです。
 
-## Getting Started
+（買い物リスト・電卓・単価計算はまだ完成していません。）
 
-This project is a starting point for a Flutter application.
+## Demo
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Requirement
+* 日本語に翻訳するために使用
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```pubspec.yaml
+  flutter_localizations:
+    sdk: flutter
+```
 
-## パッケージについて
-flutter_localizations　を使用
+* ListTitleを横にスライドさせるために使用
+
+```pubspec.yaml
+  flutter_slidable: ^1.2.0
+```
+
+* DateFormatの日付を日本語にするために使用
+
+```pubspec.yaml
+  intl: ^0.17.0
+```
+
+* ローカルストレージにデータを保存するために使用
+
+```pubspec.yaml
+  shared_preferences: ^2.0.12
+```
+
+
+* ~~flutter_typeahead: ^3.2.4~~
+
+* ~~faker: ^2.0.0~~
